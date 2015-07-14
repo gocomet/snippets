@@ -1,5 +1,11 @@
 
-# Geo IP Installation
+# Geo IP
+
+## Dependencies
+
+Requires jQuery. Will require jquery.cookie plugin when store switcher support is added
+
+## Installation
 
 1. add settings found in settings_schema.json into theme's `settings_schema.json`
 2. configure settings as needed
