@@ -19,10 +19,10 @@
 ;(function($, undefined) {
   'use strict';
   
-  var siteCode      = '{{ settings.geo-ip-site-code }}'
-    , otherCode     = '{{ settings.geo-ip-other-code }}'
-    , otherURL      = '{{ settings.geo-ip-other-url }}'
-    , geoIPService  = '{{ settings.geo-ip-service }}';
+  var siteCode      = '{{ settings.comet_geo_ip_site_code }}'
+    , otherCode     = '{{ settings.comet_geo_ip_other_code }}'
+    , otherURL      = '{{ settings.comet_geo_ip_other_url }}'
+    , geoIPService  = '{{ settings.comet_geo_ip_service }}';
 
   function onSuccess(loc) {
     {% comment %}
@@ -37,7 +37,7 @@
       If the user is in Canada, redirect to CA site
     
     {% endcomment %}
-    {% if settings.geo-ip-is-default %}
+    {% if settings.comet_geo_ip_is_default %}
       if (loc.country_code === otherCode) {
     {% else %}
       if (loc.country_code !== siteCode) {
