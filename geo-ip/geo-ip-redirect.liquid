@@ -1,0 +1,75 @@
+{% comment %}
+
+  GEO IP Redirect
+
+  Place in header to redirect before loading all of the site's assets
+
+  NOTE: we are not trying to force a synchronous call since this is no longer supported in most major browsers
+
+  To emulate a synchronous call, we put a 'cover' div over the site while the redirect script is running.
+  The cover div is removed once the redirect script is complete,
+  and the site is revealed
+
+  Dependencies: jQuery
+
+  TODO: add store switcher support
+
+{% endcomment %}
+<script id="comet-geo-ip-redirect">
+;(function($, undefined) {
+  'use strict';
+  
+  var siteCode      = '{{ settings.geo-ip-site-code }}'
+    , otherCode     = '{{ settings.geo-ip-other-code }}'
+    , otherURL      = '{{ settings.geo-ip-other-url }}'
+    , geoIPService  = '{{ settings.geo-ip-service }}';
+
+  function onSuccess(loc) {
+    {% comment %}
+      
+      The script has returned;
+      look for the cover div so we can remove it
+    
+    {% endcomment %}
+    var $cover = $('#comet-geo-ip-redirect-cover');
+    {% comment %}
+    
+      If the user is in Canada, redirect to CA site
+    
+    {% endcomment %}
+    {% if settings.geo-ip-is-default %}
+      if (loc.country_code === otherCode) {
+    {% else %}
+      if (loc.country_code !== siteCode) {
+    {% endif %}
+      window.location = otherURL;
+    } else {
+      {% comment %}
+        
+        stay on this site;
+        if there is a cover element, remove it
+      
+      {% endcomment %}
+      if ($cover.length) {
+        $cover.remove();
+      } else {
+        {% comment %}
+        
+          there is no cover element yet;
+          wait for doc.ready and then remove it once its there
+        
+        {% endcomment %}
+        $(function() {
+          $('#comet-geo-ip-redirect-cover').remove();
+        });
+      }
+    }
+  }
+  $.ajax({ 
+    url: geoIPService, 
+    type: 'GET', 
+    dataType: 'jsonp',
+    success: onSuccess
+  });
+})(jQuery);
+</script>
