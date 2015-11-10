@@ -49,14 +49,12 @@
 			"id": "comet_geoip_fallbackdelay",
 			"type": "text",
 			"label": "Fallback Delay",
-			"info": "Enter the delay (in ms) before fallback kicks in",
-			"default": "5000"
+			"info": "Enter the delay (in ms) before fallback kicks in"
 		},
 		{
-			"id": "comet_geoip_fallbackdelay",
+			"id": "comet_geoip_service",
 			"type": "text",
-			"label": "Fallback Delay",
-			"info": "Enter the delay (in ms) before fallback kicks in"
+			"label": "Geo IP Service URL"
 		},
 		{
 			"id": "comet_geoip_storeswitcher",

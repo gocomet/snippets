@@ -27,6 +27,7 @@
   var redirectToRoot        = {{ settings.comet_geoip_redirecttoroot }};
   var storeSwitcherEnabled  = {{ settings.comet_geoip_storeswitcher }} && $.cookie;
   var cookieName            = '{{ settings.comet_geoip_cookiename }}';
+  var geoIPService          = '{{ settings.comet_geoip_service }}';
   var coverID               = '#comet-geo-ip-redirect-cover';
   var rightDomain;
   var wrongDomain;
@@ -84,7 +85,7 @@
   }
 
   $.ajax({ 
-    url: '//geoip.demacmedia.ca/json/', 
+    url: geoIPService, 
     type: 'GET', 
     dataType: 'jsonp',
     success: onSuccess
