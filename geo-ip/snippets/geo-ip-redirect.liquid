@@ -42,6 +42,17 @@
     fallbackDelay = 5000;
   }
 
+  {% comment %}
+
+    Run this function
+    when the Geo IP service returns successfully
+    check which country the user is in,
+    and redirect to the appropriate country 
+    and also take into account
+    whether or not the store switcher is in use
+    and therefore if we should override the geo ip or not
+
+  {% endcomment %}
   function onSuccess(loc) {
     var $cover, inSecondary, atWrongSite, newLoc;
     
@@ -84,6 +95,11 @@
     }
   }
 
+  {% comment %}
+
+    call the Geo IP service
+
+  {% endcomment %}
   $.ajax({ 
     url: geoIPService, 
     type: 'GET', 
@@ -91,6 +107,15 @@
     success: onSuccess
   });
 
+  {% comment %}
+
+    If the call to the Geo IP is taking too long,
+    and possibly failing,
+    just run the callback anyway
+    and reveal the website
+    so its not just a blank screen for the user
+
+  {% endcomment %}
   setTimeout(function() {
     if (!called) {
       onSuccess();
