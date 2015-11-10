@@ -19,8 +19,8 @@
 		<span class="selected-text">Select your Store</span>
 		<select id="comet-geo-ip-redirect-switcher-select">
 			<option value="">Select your Store</option>
-			<option value="#{{ comet_geoip_primary_code }}">{{ comet_geoip_primary_name }}</option>
-			<option value="#{{ comet_geoip_secondary_code }}">{{ comet_geoip_secondary_name }}</option>
+			<option value="#{{ comet_geoip_primary_code | downcase }}">{{ comet_geoip_primary_name }}</option>
+			<option value="#{{ comet_geoip_secondary_code | downcase }}">{{ comet_geoip_secondary_name }}</option>
 		</select>
 	</div>
 	<script id="comet-geo-ip-redirect-switcher-script">

@@ -32,16 +32,15 @@
   var rightDomain;
   var wrongDomain;
   var secondaryCodes        = [
-    {% for cc in comet_geoip_secondary_codes %}
-      '{{ cc }}'{% unless forloop.last %},{% endunless %}
-    {% endfor %}
+    {% for cc in comet_geoip_secondary_codes %}'{{ cc }}'{% unless forloop.last %},{% endunless %}{% endfor %}
   ];
 
   {% comment %} Variable sanitization {% endcomment %}
   if (fallbackDelay === NaN) {
     fallbackDelay = 5000;
   }
-
+  storeCode = storeCode.toLowerCase();
+  
   {% comment %}
 
     Run this function
@@ -51,6 +50,12 @@
     and also take into account
     whether or not the store switcher is in use
     and therefore if we should override the geo ip or not
+    we can override the geo ip manually by just adding a hash
+    with the store code we want
+    in the url
+    example: my-eu-store.com/#eu
+    will keep you on the EU store
+    even if youre not in europe
 
   {% endcomment %}
   function onSuccess(loc) {
@@ -73,7 +78,7 @@
       }
     }
 
-    if (loc && (atWrongSite{% if settings.comet_geoip_storeswitcher %} && $.cookie(cookieName) !== storeCode && location.hash !== '#' + storeCode{% endif %})) {
+    if (loc && (atWrongSite && location.hash !== '#' + storeCode{% if settings.comet_geoip_storeswitcher %} && $.cookie(cookieName) !== storeCode{% endif %})) {
       if (redirectToRoot) {
         window.location = '//' + rightDomain;
       } else {
@@ -83,7 +88,7 @@
       }
     } else {
       if (storeSwitcherEnabled) {
-        $.cookie(cookieName, storeCode);
+        $.cookie(cookieName, storeCode, { path: '/' });
       }
       if ($cover.length) {
         $cover.remove();
