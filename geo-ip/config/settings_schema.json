@@ -96,6 +96,6 @@
 			"type": "text",
 			"label": "Site Cookie Name",
 			"info": "Enter the cookie name to be used for this site's store switcher"
-		},
+		}
 	]
 }
