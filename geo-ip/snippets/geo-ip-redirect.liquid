@@ -1,0 +1,99 @@
+{% comment %}
+
+  GEO IP Redirect
+
+  Place in header to redirect before loading all of the site's assets
+
+  NOTE: we are not trying to force a synchronous call since this is no longer supported in most major browsers
+
+  To emulate a synchronous call, we put a 'cover' div over the site while the redirect script is running.
+  The cover div is removed once the redirect script is complete,
+  and the site is revealed
+
+  Dependencies: jQuery, jquery.cookie.js
+
+{% endcomment %}
+{% assign comet_geoip_secondary_codes = settings.comet_geoip_secondary_codes | split: ',' %}
+<script id="comet-geo-ip-redirect">
+;(function($, NaN, undefined) {
+  'use strict';
+
+  var called                = false;
+  var primaryDomain         = '{{ settings.comet_geoip_primary_domain }}';
+  var secondaryDomain       = '{{ settings.comet_geoip_secondary_domain }}';
+  var isPrimary             = {{ settings.comet_geoip_isprimary }};
+  var storeCode             = '{{ settings.comet_geoip_storecode }}';
+  var fallbackDelay         = parseInt('{{ settings.comet_geoip_fallbackdelay }}', 10);
+  var redirectToRoot        = {{ settings.comet_geoip_redirecttoroot }};
+  var storeSwitcherEnabled  = {{ settings.comet_geoip_storeswitcher }} && $.cookie;
+  var cookieName            = '{{ settings.comet_geoip_cookiename }}';
+  var coverID               = '#comet-geo-ip-redirect-cover';
+  var rightDomain;
+  var wrongDomain;
+  var secondaryCodes        = [
+    {% for cc in comet_geoip_secondary_codes %}
+      '{{ cc }}'{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
+
+  {% comment %} Variable sanitization {% endcomment %}
+  if (fallbackDelay === NaN) {
+    fallbackDelay = 5000;
+  }
+
+  function onSuccess(loc) {
+    var $cover, inSecondary, atWrongSite, newLoc;
+    
+    called = true;
+
+    $cover = $(coverID);
+    
+    if (loc) {
+      inSecondary = $.inArray(loc.country_code, secondaryCodes) > -1;
+      if (isPrimary) {
+        atWrongSite = inSecondary;
+        rightDomain = secondaryDomain;
+        wrongDomain = primaryDomain;
+      } else {
+        atWrongSite = !inSecondary;
+        rightDomain = primaryDomain;
+        wrongDomain = secondaryDomain;
+      }
+    }
+
+    if (loc && (atWrongSite{% if settings.comet_geoip_storeswitcher %} && $.cookie(cookieName) !== storeCode && location.hash !== '#' + storeCode{% endif %})) {
+      if (redirectToRoot) {
+        window.location = '//' + rightDomain;
+      } else {
+        newLoc = window.location.href.replace(window.location.hash, '');
+        newLoc = newLoc.replace(wrongDomain, rightDomain);
+        window.location = newLoc;
+      }
+    } else {
+      if (storeSwitcherEnabled) {
+        $.cookie(cookieName, storeCode);
+      }
+      if ($cover.length) {
+        $cover.remove();
+      } else {
+        $(function() {
+          $(coverID).remove();
+        });
+      }
+    }
+  }
+
+  $.ajax({ 
+    url: '//geoip.demacmedia.ca/json/', 
+    type: 'GET', 
+    dataType: 'jsonp',
+    success: onSuccess
+  });
+
+  setTimeout(function() {
+    if (!called) {
+      onSuccess();
+    }
+  }, fallbackDelay);
+})(jQuery, parseInt({}), void(0));
+</script>
