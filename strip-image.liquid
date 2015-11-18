@@ -1,15 +1,15 @@
 {% comment %}
+
 	Strip one image tag out of a string of content
 	useful for descriptions that contain an image
 	and you want to remove it
 
 	usage:
-
 	include this snippet, passing in the content you want to strip and display
 
 	ex:
+	{% include 'strip-image' with collection.description %}
 
-	{% include 'strip-image' width collection.description %}
 {% endcomment %}
 {% if strip-image != blank %}
 	{% assign content = strip-image %}
