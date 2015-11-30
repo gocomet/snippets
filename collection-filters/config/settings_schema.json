@@ -1,0 +1,472 @@
+{
+  "name": "Collection Filter Groups",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Enter comma-separated lists of tags you want to filter by:"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 1"
+    },
+    {
+      "id": "comet_filtergroup_1_title",
+      "type": "text",
+      "label": "Filter Group 1 title"
+    },
+    {
+      "id": "comet_filtergroup_1_tags",
+      "type": "text",
+      "label": "Filter Group 1 tags"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 2"
+    },
+    {
+      "id": "comet_filtergroup_2_title",
+      "type": "text",
+      "label": "Filter Group 2 title"
+    },
+    {
+      "id": "comet_filtergroup_2_tags",
+      "type": "text",
+      "label": "Filter Group 2 tags"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 3"
+    },
+    {
+      "id": "comet_filtergroup_3_title",
+      "type": "text",
+      "label": "Filter Group 3 title"
+    },
+    {
+      "id": "comet_filtergroup_3_tags",
+      "type": "text",
+      "label": "Filter Group 3 tags"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 4"
+    },
+    {
+      "id": "comet_filtergroup_4_title",
+      "type": "text",
+      "label": "Filter Group 4 title"
+    },
+    {
+      "id": "comet_filtergroup_4_tags",
+      "type": "text",
+      "label": "Filter Group 4 tags"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 5"
+    },
+    {
+      "id": "comet_filtergroup_5_title",
+      "type": "text",
+      "label": "Filter Group 5 title"
+    },
+    {
+      "id": "comet_filtergroup_5_tags",
+      "type": "text",
+      "label": "Filter Group 5 tags"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 6"
+    },
+    {
+      "id": "comet_filtergroup_6_title",
+      "type": "text",
+      "label": "Filter Group 6 title"
+    },
+    {
+      "id": "comet_filtergroup_6_tags",
+      "type": "text",
+      "label": "Filter Group 6 tags"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 7"
+    },
+    {
+      "id": "comet_filtergroup_7_title",
+      "type": "text",
+      "label": "Filter Group 7 title"
+    },
+    {
+      "id": "comet_filtergroup_7_tags",
+      "type": "text",
+      "label": "Filter Group 7 tags"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 8"
+    },
+    {
+      "id": "comet_filtergroup_8_title",
+      "type": "text",
+      "label": "Filter Group 8 title"
+    },
+    {
+      "id": "comet_filtergroup_8_tags",
+      "type": "text",
+      "label": "Filter Group 8 tags"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 9"
+    },
+    {
+      "id": "comet_filtergroup_9_title",
+      "type": "text",
+      "label": "Filter Group 9 title"
+    },
+    {
+      "id": "comet_filtergroup_9_tags",
+      "type": "text",
+      "label": "Filter Group 9 tags"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 10"
+    },
+    {
+      "id": "comet_filtergroup_10_title",
+      "type": "text",
+      "label": "Filter Group 10 title"
+    },
+    {
+      "id": "comet_filtergroup_10_tags",
+      "type": "text",
+      "label": "Filter Group 10 tags"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 11"
+    },
+    {
+      "id": "comet_filtergroup_11_title",
+      "type": "text",
+      "label": "Filter Group 11 title"
+    },
+    {
+      "id": "comet_filtergroup_11_tags",
+      "type": "text",
+      "label": "Filter Group 11 tags"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 12"
+    },
+    {
+      "id": "comet_filtergroup_12_title",
+      "type": "text",
+      "label": "Filter Group 12 title"
+    },
+    {
+      "id": "comet_filtergroup_12_tags",
+      "type": "text",
+      "label": "Filter Group 12 tags"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 13"
+    },
+    {
+      "id": "comet_filtergroup_13_title",
+      "type": "text",
+      "label": "Filter Group 13 title"
+    },
+    {
+      "id": "comet_filtergroup_13_tags",
+      "type": "text",
+      "label": "Filter Group 13 tags"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 14"
+    },
+    {
+      "id": "comet_filtergroup_14_title",
+      "type": "text",
+      "label": "Filter Group 14 title"
+    },
+    {
+      "id": "comet_filtergroup_14_tags",
+      "type": "text",
+      "label": "Filter Group 14 tags"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 15"
+    },
+    {
+      "id": "comet_filtergroup_15_title",
+      "type": "text",
+      "label": "Filter Group 15 title"
+    },
+    {
+      "id": "comet_filtergroup_15_tags",
+      "type": "text",
+      "label": "Filter Group 15 tags"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 16"
+    },
+    {
+      "id": "comet_filtergroup_16_title",
+      "type": "text",
+      "label": "Filter Group 16 title"
+    },
+    {
+      "id": "comet_filtergroup_16_tags",
+      "type": "text",
+      "label": "Filter Group 16 tags"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 17"
+    },
+    {
+      "id": "comet_filtergroup_17_title",
+      "type": "text",
+      "label": "Filter Group 17 title"
+    },
+    {
+      "id": "comet_filtergroup_17_tags",
+      "type": "text",
+      "label": "Filter Group 17 tags"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 18"
+    },
+    {
+      "id": "comet_filtergroup_18_title",
+      "type": "text",
+      "label": "Filter Group 18 title"
+    },
+    {
+      "id": "comet_filtergroup_18_tags",
+      "type": "text",
+      "label": "Filter Group 18 tags"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 19"
+    },
+    {
+      "id": "comet_filtergroup_19_title",
+      "type": "text",
+      "label": "Filter Group 19 title"
+    },
+    {
+      "id": "comet_filtergroup_19_tags",
+      "type": "text",
+      "label": "Filter Group 19 tags"
+    },
+    {
+      "type": "header",
+      "content": "Filter Group 20"
+    },
+    {
+      "id": "comet_filtergroup_20_title",
+      "type": "text",
+      "label": "Filter Group 20 title"
+    },
+    {
+      "id": "comet_filtergroup_20_tags",
+      "type": "text",
+      "label": "Filter Group 20 tags"
+    }
+  ]
+},
+{
+  "name": "Filterable Collections",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Configure which Filter Groups you display for your collections: in the Use Filtegroups field, enter a comma-separated list of numbers of the Filter Groups you want to filter by."
+    },
+    {
+      "id": "comet_filtercollection_count",
+      "type": "number",
+      "default": 20,
+      "label": "Enter the total number of collections using filter groups"
+    },
+    {
+      "type": "header",
+      "content": "Collection 1 Filter Groups"
+    },
+    {
+      "id": "comet_filtercollection_1_collection",
+      "type": "collection",
+      "label": "Choose Collection"
+    },
+    {
+      "id": "comet_filtercollection_1_filtergroups",
+      "type": "text",
+      "label": "Use Filtergroups"
+    },
+    {
+      "type": "header",
+      "content": "Collection 2 Filter Groups"
+    },
+    {
+      "id": "comet_filtercollection_2_collection",
+      "type": "collection",
+      "label": "Choose Collection"
+    },
+    {
+      "id": "comet_filtercollection_2_filtergroups",
+      "type": "text",
+      "label": "Use Filtergroups"
+    },
+    {
+      "type": "header",
+      "content": "Collection 3 Filter Groups"
+    },
+    {
+      "id": "comet_filtercollection_3_collection",
+      "type": "collection",
+      "label": "Choose Collection"
+    },
+    {
+      "id": "comet_filtercollection_3_filtergroups",
+      "type": "text",
+      "label": "Use Filtergroups"
+    },
+    {
+      "type": "header",
+      "content": "Collection 4 Filter Groups"
+    },
+    {
+      "id": "comet_filtercollection_4_collection",
+      "type": "collection",
+      "label": "Choose Collection"
+    },
+    {
+      "id": "comet_filtercollection_4_filtergroups",
+      "type": "text",
+      "label": "Use Filtergroups"
+    },
+    {
+      "type": "header",
+      "content": "Collection 5 Filter Groups"
+    },
+    {
+      "id": "comet_filtercollection_5_collection",
+      "type": "collection",
+      "label": "Choose Collection"
+    },
+    {
+      "id": "comet_filtercollection_5_filtergroups",
+      "type": "text",
+      "label": "Use Filtergroups"
+    },
+    {
+      "type": "header",
+      "content": "Collection 6 Filter Groups"
+    },
+    {
+      "id": "comet_filtercollection_6_collection",
+      "type": "collection",
+      "label": "Choose Collection"
+    },
+    {
+      "id": "comet_filtercollection_6_filtergroups",
+      "type": "text",
+      "label": "Use Filtergroups"
+    },
+    {
+      "type": "header",
+      "content": "Collection 7 Filter Groups"
+    },
+    {
+      "id": "comet_filtercollection_7_collection",
+      "type": "collection",
+      "label": "Choose Collection"
+    },
+    {
+      "id": "comet_filtercollection_7_filtergroups",
+      "type": "text",
+      "label": "Use Filtergroups"
+    },
+    {
+      "type": "header",
+      "content": "Collection 8 Filter Groups"
+    },
+    {
+      "id": "comet_filtercollection_8_collection",
+      "type": "collection",
+      "label": "Choose Collection"
+    },
+    {
+      "id": "comet_filtercollection_8_filtergroups",
+      "type": "text",
+      "label": "Use Filtergroups"
+    },
+    {
+      "type": "header",
+      "content": "Collection 9 Filter Groups"
+    },
+    {
+      "id": "comet_filtercollection_9_collection",
+      "type": "collection",
+      "label": "Choose Collection"
+    },
+    {
+      "id": "comet_filtercollection_9_filtergroups",
+      "type": "text",
+      "label": "Use Filtergroups"
+    },
+    {
+      "type": "header",
+      "content": "Collection 10 Filter Groups"
+    },
+    {
+      "id": "comet_filtercollection_10_collection",
+      "type": "collection",
+      "label": "Choose Collection"
+    },
+    {
+      "id": "comet_filtercollection_10_filtergroups",
+      "type": "text",
+      "label": "Use Filtergroups"
+    },
+    {
+      "type": "header",
+      "content": "Collection 11 Filter Groups"
+    },
+    {
+      "id": "comet_filtercollection_11_collection",
+      "type": "collection",
+      "label": "Choose Collection"
+    },
+    {
+      "id": "comet_filtercollection_11_filtergroups",
+      "type": "text",
+      "label": "Use Filtergroups"
+    },
+    {
+      "type": "header",
+      "content": "Collection 12 Filter Groups"
+    },
+    {
+      "id": "comet_filtercollection_12_collection",
+      "type": "collection",
+      "label": "Choose Collection"
+    },
+    {
+      "id": "comet_filtercollection_12_filtergroups",
+      "type": "text",
+      "label": "Use Filtergroups"
+    }
+  ]
+}

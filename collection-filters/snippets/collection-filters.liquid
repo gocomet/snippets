@@ -1,0 +1,236 @@
+{% comment %}
+  
+  Loop through all the filterable collection settings
+  and determine which filter groups we will be using
+
+{% endcomment %}
+<div class="collection-filters">
+  {% for i in (1..settings.comet_filtercollection_count) %}
+    {% capture comet_filtercol_base %}comet_filtercollection_{{ i }}{% endcapture %}
+    {% capture comet_filtercol_id %}{{ comet_filtercol_base }}_collection{% endcapture %}  
+    {% assign comet_filtercol = collections[settings[comet_filtercol_id]] %}
+    {% if collection.handle == comet_filtercol.handle %}
+      {% capture comet_filtergroups_field %}{{ comet_filtercol_base }}_filtergroups{% endcapture %}
+      {% assign comet_filtergroup_ids = settings[comet_filtergroups_field] | split: ',' %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+  {% if comet_filtergroup_ids.size > 0 %}
+    <h4 class="mobile-filters-toggle hide--small">Filters</h4>
+  {% else %}
+    <br>
+  {% endif %}
+
+  <div class="toggle-filters-mobile">
+    {% if current_tags %}
+      <div class="current-filters">
+        <h2 id="current-filters-title">Filter Results</h2>
+        <div class="current-filters-box">
+          <h4 id="current-filters-subtitle" class="current-filters-subtitle">
+            <em>Currently Shopping</em>
+          </h4>
+  
+          <ul class="ul--reset current-filters-list">
+            {% for i in comet_filtergroup_ids %}
+              {% capture  comet_filtergroup %}comet_filtergroup_{{ i }}{% endcapture %}
+              {% capture  comet_filtergroup_title %}{{ comet_filtergroup }}_title{% endcapture %}
+              {% assign   comet_filtergroup_title = settings[comet_filtergroup_title] %}
+              {% capture  comet_filtergroup_tags %}{{ comet_filtergroup }}_tags{% endcapture %}
+              {% assign   comet_filtergroup_tags = settings[comet_filtergroup_tags] | split: ',' %}
+              {% for tag in current_tags %}
+                {% if comet_filtergroup_tags contains tag %}
+                  <li class="rel">
+                    <small>
+                      <strong class="text--upper">{{ comet_filtergroup_title }}</strong>
+                      <span>&nbsp;</span>
+                      <span>{{ tag }}</span>
+                      <label for="collection-filter-{{ i }}-clear" class="right">
+                        <input class="collection-filter" style="display: none"
+                          id="collection-filter-{{ i }}-clear"
+                          type="radio"
+                          name="{{ i }}"
+                          value=""
+                          {% unless active_tag %}
+                            checked="checked"
+                          {% endunless %}>
+                        <i class="fa fa-close"></i>
+                      </label>
+                    </small>
+                  </li>
+                  {% break %}
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+          </ul>
+
+          <label class="text-link" for="clear-all-filters-1">
+            <input id="clear-all-filters-1" class="clear-all-filters" type="checkbox" style="display: none">
+            <span class="text">
+              <small>Clear all</small>
+            </span>
+          </label>
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="collection-filter-groups">
+      {% for i in comet_filtergroup_ids %}
+        {% capture  comet_filtergroup %}comet_filtergroup_{{ i }}{% endcapture %}
+        {% capture  comet_filtergroup_title %}{{ comet_filtergroup }}_title{% endcapture %}
+        {% assign   comet_filtergroup_title = settings[comet_filtergroup_title] %}
+        {% capture  comet_filtergroup_tags %}{{ comet_filtergroup }}_tags{% endcapture %}
+        {% assign   comet_filtergroup_tags = settings[comet_filtergroup_tags] | split: ',' %}
+        <div class="filter-group">
+          <div class="oh">
+            <h3>{{ comet_filtergroup_title }}</h3>
+          </div>
+          <ul class="ul--reset">
+            {% assign active_tag = false %}
+            {% for tag in comet_filtergroup_tags %}
+              {% if collection.all_tags contains tag %}
+                <li data-variant-tag="{{ tag | handleize }}">
+                  <label for="collection-filter-{{ i }}-{{ tag | handleize }}"
+                    {% if current_tags contains tag %}
+                      {% assign active_tag = true %}
+                      class="active"
+                    {% endif %}>
+                    <input
+                      class="collection-filter"
+                      style="display: none"
+                      id="collection-filter-{{ i }}-{{ tag | handleize }}"
+                      type="radio"
+                      name="{{ i }}"
+                      value="{{ tag | handleize }}"
+                      {% if current_tags contains tag %}
+                        checked="checked"
+                      {% endif %}>
+                    <span class="text">
+                      {{ tag }}
+                    </span>
+                  </label>
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+    
+  <script>
+    {% comment %}
+      Product Tag Filters - Good for any number of filters on any type of collection page.
+      Give you product tag filter select element a class of coll-filter.
+      Give your collection select a class of coll-picker.
+      Brought to you by Caroline Schnapp.
+
+      Modded for use with radio buttons
+    {% endcomment %}
+    ;(function($, Shopify, undefined) {
+      'use strict';
+
+      {% comment %}must wait for doc.ready to use Linkset lib{% endcomment %}
+      $(function() {
+        var $filters = $('.collection-filter');
+
+        $filters.on('change', function(e) {
+          var $checked = $filters.filter(':checked')
+            , newTags = []
+            , newURL, search, tag, i, len;
+            
+          for (i = 0, len = $checked.length; i < len; i++) {
+            if (tag = $checked[i].value) {
+              newTags.push(tag);
+            }
+          }
+
+          {% if collection.handle %}
+            newURL = '/collections/{{ collection.handle }}';
+            if (newTags.length) {
+              newURL += '/' + newTags.join('+');
+            }
+          
+            search = $.param(Shopify.queryParams);
+            if (search.length) {
+              newURL += '?' + search;
+            }
+          
+            location.href = newURL;
+          {% else %}
+            if (newTags.length) {
+              Shopify.queryParams.constraint = newTags.join('+');
+            } else {
+              delete Shopify.queryParams.constraint;
+            }
+
+            location.search = $.param(Shopify.queryParams);
+          {% endif %}
+        });
+
+        $('body').on('change', '.clear-all-filters', function(e) {
+          var newURL, search;
+          if (this.checked) {
+            {% if collection.handle %}
+              newURL = '/collections/{{ collection.handle }}';
+              search = $.param(Shopify.queryParams);
+              if (search.length) {
+                newURL += '?' + search;
+              }
+              location.href = newURL;
+            {% else %}
+              delete Shopify.queryParams.constraint;
+              location.search = $.param(Shopify.queryParams);
+            {% endif %}
+          }
+        });
+
+        Shopify.queryParams = {};
+        if (location.search.length) {
+          for (var aKeyValue, i = 0, aCouples = location.search.substr(1).split('&'); i < aCouples.length; i++) {
+            aKeyValue = aCouples[i].split('=');
+            if (aKeyValue.length > 1) {
+              Shopify.queryParams[decodeURIComponent(aKeyValue[0])] = decodeURIComponent(aKeyValue[1]);
+            }
+          }
+        }
+      });
+    })(jQuery, (Shopify = typeof Shopify === 'undefined' ? {}: Shopify));
+  </script>
+  {% comment %}
+
+    mobile accordion toggles
+
+  {% endcomment %}
+  <script>
+    jQuery(function($) {
+      'use strict';
+      var $filters = $('.collection-filter-groups');
+      var $toggles = $filters.find('h3');
+      var $targets = $filters.find('ul');
+      $toggles.on('click', function(e) {
+        var $this = $(this);
+        var i = $toggles.index(this);
+        e.preventDefault();
+        $this.toggleClass('active');
+        $targets.eq(i).toggleClass('active');
+      });
+    });
+  </script>
+  {% comment %}
+    
+    Mobile filters toggle
+
+  {% endcomment %}
+  <script>
+  jQuery(function($) {
+    'use strict';
+    var $toggle = $('.mobile-filters-toggle');
+    var $target = $('.toggle-filters-mobile');
+    $toggle.on('click', function(e) {
+      $toggle.toggleClass('active');
+      $target.toggleClass('active');
+    });
+  });
+  </script>
+</div>
