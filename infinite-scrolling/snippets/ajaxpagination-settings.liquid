@@ -1,0 +1,45 @@
+{% comment %}
+  for infinite collection product scrolling
+{% endcomment %}
+<script type="text/javascript">
+  $(function(){
+      //options that should be passed.
+      var options = {
+        // the pagination selector.
+        PaginationSelector : 'ul.pagination', 
+        
+        // the current page selector
+        CurrentPageSelector : 'li.active a', 
+        // the next page selector
+        NextPageLinkSelector : 'li.next a',
+        
+        // the previous page selector
+        PreviousPageLinkSelector : 'li.previous a',
+        
+        /*the callback that will be executed when a page has loaded*/
+        CallBackWhenNextOrPreviousPageIsLoaded : callBackWhenNextOrPreviousPageIsLoaded,
+        /*the callback that will be executed when all pages have been loaded.*/            
+        CallBack:function(){}
+      };
+      
+      //Example 1 : when document is ready
+      $('.pagination').AjaxPagination(options);
+      //Example 2 : On click event of a button
+      // $(LINKSELECTOR).click(function(){
+      //     $(PaginationWrapperSelector).AjaxPagination(options);
+      //     return false;
+      // })
+  });
+  
+  //basic CallBackWhenNextOrPreviousPageIsLoaded function...
+  var callBackWhenNextOrPreviousPageIsLoaded = function(data){
+      /*the most basic dom manipulation that you will be doing obviously will be to append new elements to the page, for example lets say you have a wrapper on the page as below
+      <ul id="collection-wrapper">
+          <li></li>
+          <li></li>
+      </ul>
+      and you want to append new load <li/> elements from the page that has been loaded in ajax. The code will be like below.
+    */
+      $('.collection-products').append($(data).find('.collection-products').html());
+  };
+</script>
