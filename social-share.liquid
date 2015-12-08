@@ -1,0 +1,78 @@
+{% comment %}
+  
+  Social Share snippet
+
+  - usable with products or articles
+  - uses BEM conventions
+  - and Font-Awesome icons by default
+
+  Usage:
+
+  {% include 'social-share' with product %}
+
+  or:
+
+  {% include 'social-share' with article %}
+
+  TODO: needs testing!
+
+{% endcomment %}
+{% comment %}
+  Safe-guard against argument not being passed
+{% endcomment %}
+{% if social-share == blank and product %}
+  {% assign social-share = product %}
+{% endif %}
+{% comment %}
+  duck-type argument:
+  If argument passed is a product, get the product image url
+{% endcomment %}
+{% if social-share.variants %}
+  {% assign social_share_img_url = social-share.featured_image.src | product_img_url: 'grande' %}
+{% comment %}
+  Else the argument passed is an article, get the article image url
+{% endcomment %}
+{% else %}
+  {% assign social_share_img_url = social-share.image | img_url: 'grande' %}
+{% endif %}
+<ul class="ul--inline social-share social-icons social-share--{{ social-share }}">
+  {% if settings.twittercard_handle != blank %}
+    <li>
+      <a class="social-icon social-icon--twitter"
+        target="_blank"
+        title="{{ shop.name }} on Twitter"
+        href="//twitter.com/share?text={{ settings.twittercard_handle }}&amp;?url={{ shop.url }}{{ social-share.url }}">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+  {% endif %}
+  <li>
+    <a class="social-icon social-icon--facebook"
+      target="_blank"
+      href="//facebook.com/sharer.php?u={{ shop.url }}{{ social-share.url }}&amp;t={{ social-share.title }}">
+      <i class="fa fa-facebook"></i>
+    </a>
+  </li>
+  <li>
+    <a class="social-icon social-icon--pinterest"
+      target="_blank"
+      href="http://pinterest.com/pin/create/button/?url={{ shop.url }}{{ social-share.url }}&media={{ social_share_img_url }}&description={{ social-share.title }}">
+      <i class="fa fa-pinterest"></i>
+    </a>
+  </li>
+  <li>
+    <a class="social-icon social-icon--envelope"
+      target="_blank"
+      href="mailto:?subject={{ social-share.title }}&amp;body={{ shop.url }}{{ social-share.url }}" title="Share by Email">
+      <i class="fa fa-envelope"></i>
+    </a>
+  </li>
+</ul>
+{% comment %}
+ alternative pinterest button
+{% endcomment %}
+{% comment %}
+  <a href='javascript:void((function()%7Bvar%20e=document.createElement(&apos;script&apos;);e.setAttribute(&apos;type&apos;,&apos;text/javascript&apos;);e.setAttribute(&apos;charset&apos;,&apos;UTF-8&apos;);e.setAttribute(&apos;src&apos;,&apos;http://assets.pinterest.com/js/pinmarklet.js?r=&apos;+Math.random()*99999999);document.body.appendChild(e)%7D)());'>
+    <img src="{{ 'img-pintrest.png' | asset_url }}" alt="Pinterest">
+  </a>
+{% endcomment %}
