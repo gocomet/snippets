@@ -1,0 +1,60 @@
+{% comment %}
+Set up checkbox for enabling content blocks, options for positioning content blocks, and instructions for positioning content blocks in settings_schema.json.  Here is an example for featured collections:
+
+ {
+    "type": "checkbox",
+    "id": "featured_collections_enabled",
+    "label": "Featured Collections Enabled",
+    "default": true
+ },
+ {
+    "type": "select",
+    "id": "featured_collections_pos",
+    "label": "Position",
+    "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5"}
+    ],
+    "default": "2"
+ },
+{
+    "type": "paragraph",
+    "content": "Select the position in which you want the Featured Collections to appear on the Homepage (Position 1 is reserved for the Homepage Slideshow)"
+},
+{
+    "type": "paragraph",
+    "content": "NOTE: make sure each of your Homepage sections have different positions, or else they may not display!"
+}
+
+{% endcomment %}
+
+{% comment %}
+Assign a variable as an array of position numbers in index.liquid
+{% endcomment %}
+{% assign hp_sections = '2,3,4,5' %}
+
+{% comment %}
+Then split the array into individual items after each comma
+{% endcomment %}
+{% assign hp_sections = hp_sections | split: ',' %}
+
+{% comment %}
+Write a for loop.  Write if / elsif statements inside that for loop for each section (check it's position then check to see if it's enabled in the settings)
+{% endcomment %}
+    {% for i in hp_sections %}
+          {% if settings.featured_collections_pos == i and settings.featured_collections_enabled %}
+              {% comment %}
+              some code for that section
+              {% endcomment %}
+          {% elsif settings.featured_links_pos == i and settings.featured_links_enabled %}
+              {% comment %}
+              some code for that section
+              {% endcomment %}
+          {% elsif settings.blog_pos == i and settings.blog_enabled %}
+              {% comment %}
+              some code for that section
+              {% endcomment %}
+          {% endif %}
+    {% endfor %}
