@@ -14,9 +14,7 @@ Loop through all sandals in collection (have same product type) and output the d
   {% assign color_options = '' %}
   {% for color_col in product.collections %}
     {% assign product_title = product.title | handleize %}
-    <p>{{ product_title }}</p>
     {% assign col_title = color_col.title | handleize %}
-    <p>{{ col_title }}</p>
     {% if product_title contains col_title %}
       {% for p in color_col.products %}
         {% for ta in p.tags %}
