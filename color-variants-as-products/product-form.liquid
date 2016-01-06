@@ -1,0 +1,59 @@
+{% comment %}
+- Create a collection and add all products
+- Tag each product with relevant color (use the format 'color: Color Name')
+- Include this snippet in your product form
+{% endcomment %}
+
+{% comment %}
+Loop through all sandals in collection (have same product type) and output the different color of each one. when user selects color, redirect them to that product.
+{% endcomment %}
+<div class="product-colors">
+<select id="product-colors-selector">
+  {% assign color_str = 'color: ' %}
+  {% assign color_str = color_str | handleize %}
+  {% assign color_options = '' %}
+  {% for color_col in product.collections %}
+    {% assign product_title = product.title | handleize %}
+    {% assign col_title = color_col.title | handleize %}
+    {% if product_title contains col_title %}
+      {% for p in color_col.products %}
+        {% for ta in p.tags %}
+          {% assign ta = ta | handleize  %}
+          {% if ta contains color_str %}
+            {% assign c = ta | replace: color_str, '' %}
+            {% comment %}
+              Make sure current option is always the first one displayed
+            {% endcomment %}
+            {% capture color_option %}
+              <option value="{{ p.url }}">{{ c | remove: ':' }}</option>
+            {% endcapture %}
+            {% if p.id == product.id %}
+              {% assign color_options = color_options | prepend: color_option %}
+            {% else %}
+              {% assign color_options = color_options | append: color_option %}
+            {% endif %}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+  {{ color_options }}
+</select>
+<script>
+  ;(function($, undefined) {
+    'use strict';
+    {% comment %}
+      Load product when selection is made
+    {% endcomment %}
+    $('#product-colors-selector').on('change', function(e) {
+      var val   = $(this).val()
+        , path  = location.pathname;
+      e.preventDefault();
+      if (path !== val) {
+        location.href = val;
+      }
+    });
+  })(jQuery);
+</script>
+</div>
