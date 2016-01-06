@@ -28,3 +28,7 @@ Requires jQuery. Also requires jquery.cookie.js if you want to use the Store Swi
 5. include `geo-ip-redirect.liquid` in `<head>` tag, after jquery
 6. include `geo-ip-redirect-cover.liquid` in `<body>` tag, directly after it opens
 7. if you're using the store switcher, include `geo-ip-redirect-switcher.liquid` wherever you want it on the page
+
+## Finally
+
+We keep track of which clients use our Geo-IP service; when you implement this feature for a client, be sure to let Rodolfo know!
