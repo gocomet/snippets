@@ -68,3 +68,5 @@
 - [Google Forms - how to embed them without using any of their styles](https://docs.google.com/document/d/1oIKsPaES1vxI7oVv1YIdMsLXOlYMOQDE1DfFFOz-3wc/edit)
 
 - [Shopify Preview](https://docs.google.com/document/d/106OYQ9WUSR7iT1rgEEnXvEEy2-9icuB1lyEY74tLVaM/edit)
+
+- [CometU Idea Box](https://docs.google.com/document/d/1BVy2AqLgsTWaiUi_eywe8Isp5MvCd8csVTKMKVRA87U/edit)
