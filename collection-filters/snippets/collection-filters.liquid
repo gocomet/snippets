@@ -33,31 +33,33 @@
           <ul class="ul--reset current-filters-list">
             {% for i in comet_filtergroup_ids %}
               {% capture  comet_filtergroup %}comet_filtergroup_{{ i }}{% endcapture %}
-              {% capture  comet_filtergroup_title %}{{ comet_filtergroup }}_title{% endcapture %}
-              {% assign   comet_filtergroup_title = settings[comet_filtergroup_title] %}
-              {% capture  comet_filtergroup_tags %}{{ comet_filtergroup }}_tags{% endcapture %}
-              {% assign   comet_filtergroup_tags = settings[comet_filtergroup_tags] | split: ',' %}
+              {% capture  comet_filtergroup_prefix %}{{ comet_filtergroup }}_prefix{% endcapture %}
+              {% assign   comet_filtergroup_prefix = settings[comet_filtergroup_prefix] %}
               {% for tag in current_tags %}
                 {% if comet_filtergroup_tags contains tag %}
-                  <li class="rel">
-                    <small>
-                      <strong class="text--upper">{{ comet_filtergroup_title }}</strong>
-                      <span>&nbsp;</span>
-                      <span>{{ tag }}</span>
-                      <label for="collection-filter-{{ i }}-clear" class="right">
-                        <input class="collection-filter" style="display: none"
-                          id="collection-filter-{{ i }}-clear"
-                          type="radio"
-                          name="{{ i }}"
-                          value=""
-                          {% unless active_tag %}
-                            checked="checked"
-                          {% endunless %}>
-                        <i class="fa fa-close"></i>
-                      </label>
-                    </small>
-                  </li>
-                  {% break %}
+                  {% assign current_tag_prefix = tag | split: '_' %}
+                  {% assign current_tag_prefix = current_tag_prefix[0] %}
+                  {% if current_tag_prefix == comet_filtergroup_prefix %}
+                    <li data-current-tag="{{ tag | handle }}" class="rel">
+                      <small>
+                        <strong class="text--upper">{{ comet_filtergroup_title }}</strong>
+                        <span>&nbsp;</span>
+                        <span>{{ tag }}</span>
+                        <label for="collection-filter-{{ i }}-clear" class="right">
+                          <input class="collection-filter" style="display: none"
+                            id="collection-filter-{{ i }}-clear"
+                            type="radio"
+                            name="{{ i }}"
+                            value=""
+                            {% unless active_tag %}
+                              checked="checked"
+                            {% endunless %}>
+                          <i class="fa fa-close"></i>
+                        </label>
+                      </small>
+                    </li>
+                    {% break %}
+                  {% endif %}
                 {% endif %}
               {% endfor %}
             {% endfor %}
@@ -76,40 +78,50 @@
     <div class="collection-filter-groups">
       {% for i in comet_filtergroup_ids %}
         {% capture  comet_filtergroup %}comet_filtergroup_{{ i }}{% endcapture %}
-        {% capture  comet_filtergroup_title %}{{ comet_filtergroup }}_title{% endcapture %}
-        {% assign   comet_filtergroup_title = settings[comet_filtergroup_title] %}
-        {% capture  comet_filtergroup_tags %}{{ comet_filtergroup }}_tags{% endcapture %}
-        {% assign   comet_filtergroup_tags = settings[comet_filtergroup_tags] | split: ',' %}
+        {% capture  comet_filtergroup_prefix %}{{ comet_filtergroup }}_prefix{% endcapture %}
+        {% assign   comet_filtergroup_prefix = settings[comet_filtergroup_prefix] %}
         <div class="filter-group">
           <div class="oh">
-            <h3>{{ comet_filtergroup_title }}</h3>
+            <h3>{{ comet_filtergroup_prefix }}</h3>
           </div>
           <ul class="ul--reset">
             {% assign active_tag = false %}
+            {% comment %}
+
+              Some prefixes may be contained in other prefixes
+              ex. "Type" in "Product Type"
+              therefore, we must not only check if the prefix is contained
+              but also if it is the one we want
+
+            {% endcomment %}
             {% for tag in comet_filtergroup_tags %}
               {% if collection.all_tags contains tag %}
-                <li data-variant-tag="{{ tag | handleize }}">
-                  <label for="collection-filter-{{ i }}-{{ tag | handleize }}"
-                    {% if current_tags contains tag %}
-                      {% assign active_tag = true %}
-                      class="active"
-                    {% endif %}>
-                    <input
-                      class="collection-filter"
-                      style="display: none"
-                      id="collection-filter-{{ i }}-{{ tag | handleize }}"
-                      type="radio"
-                      name="{{ i }}"
-                      value="{{ tag | handleize }}"
+                {% assign tag_prefix = tag | split: '_' %}
+                {% assign tag_prefix = tag_prefix[0] %}
+                {% if tag_prefix == comet_filtergroup_prefix %}
+                  <li data-variant-tag="{{ tag | handleize }}">
+                    <label for="collection-filter-{{ i }}-{{ tag | handleize }}"
                       {% if current_tags contains tag %}
-                        checked="checked"
+                        {% assign active_tag = true %}
+                        class="active"
                       {% endif %}>
-                    <span class="text">
-                      {{ tag }}
-                    </span>
-                  </label>
-                  </a>
-                </li>
+                      <input
+                        class="collection-filter"
+                        style="display: none"
+                        id="collection-filter-{{ i }}-{{ tag | handleize }}"
+                        type="radio"
+                        name="{{ i }}"
+                        value="{{ tag | handleize }}"
+                        {% if current_tags contains tag %}
+                          checked="checked"
+                        {% endif %}>
+                      <span class="text">
+                        {{ tag }}
+                      </span>
+                    </label>
+                    </a>
+                  </li>
+                {% endif %}
               {% endif %}
             {% endfor %}
           </ul>
@@ -120,12 +132,14 @@
     
   <script>
     {% comment %}
+      
       Product Tag Filters - Good for any number of filters on any type of collection page.
       Give you product tag filter select element a class of coll-filter.
       Give your collection select a class of coll-picker.
       Brought to you by Caroline Schnapp.
 
       Modded for use with radio buttons
+    
     {% endcomment %}
     ;(function($, Shopify, undefined) {
       'use strict';
@@ -133,11 +147,34 @@
       {% comment %}must wait for doc.ready to use Linkset lib{% endcomment %}
       $(function() {
         var $filters = $('.collection-filter');
+        var $current = $('[data-current-tag]');
+        {% comment %}
 
+          When a user hits the "back" button,
+          browsers usually restore the last form state
+          that means our previously-checked inputs will be "checked",
+          but our markup won*t match
+          thus breaking our script
+
+          loop through inputs and uncheck any that should not be checked.
+
+        {% endcomment %}
+        $filters.each(function() {
+          if (this.checked && !this.getAttribute('checked')) {
+            this.checked = false;
+          }
+        });
+        {% comment %}
+
+          when a filter is selected (an input is changed),
+          compile our tags and redirect to the tag url 
+          let shopify do the filtering
+
+        {% endcomment %}
         $filters.on('change', function(e) {
-          var $checked = $filters.filter(':checked')
-            , newTags = []
-            , newURL, search, tag, i, len;
+          var $checked = $filters.filter(':checked');
+          var newTags = [];
+          var newURL, search, tag, i, len;
             
           for (i = 0, len = $checked.length; i < len; i++) {
             if (tag = $checked[i].value) {
@@ -167,7 +204,21 @@
             location.search = $.param(Shopify.queryParams);
           {% endif %}
         });
+        {% comment %}
 
+          Remove current filter when clicked
+          by unchecking related filters
+          then refresh using filters.onchange
+
+        {% endcomment %}
+        $current.on('click', function(e) {
+          var tag = this.getAttribute('data-current-tag');
+          $filters
+            .filter('[value="' + tag + '"]')
+            .prop('checked', false)
+            .end()
+            .eq(0).trigger('change');
+        });
         $('body').on('change', '.clear-all-filters', function(e) {
           var newURL, search;
           if (this.checked) {
