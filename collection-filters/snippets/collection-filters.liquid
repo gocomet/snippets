@@ -36,15 +36,16 @@
               {% capture  comet_filtergroup_prefix %}{{ comet_filtergroup }}_prefix{% endcapture %}
               {% assign   comet_filtergroup_prefix = settings[comet_filtergroup_prefix] %}
               {% for tag in current_tags %}
-                {% if comet_filtergroup_tags contains tag %}
-                  {% assign current_tag_prefix = tag | split: '_' %}
-                  {% assign current_tag_prefix = current_tag_prefix[0] %}
-                  {% if current_tag_prefix == comet_filtergroup_prefix %}
+                {% if tag contains comet_filtergroup_prefix %}
+                  {% assign current_tag_parts = tag | split: '_' %}
+                  {% assign current_tag_prefix = current_tag_parts[0] %}
+                  {% assign current_tag_suffix = current_tag_parts[1] %}
+                  {% if (current_tag_prefix == comet_filtergroup_prefix) and current_tag_suffix %}
                     <li data-current-tag="{{ tag | handle }}" class="rel">
                       <small>
                         <strong class="text--upper">{{ comet_filtergroup_title }}</strong>
                         <span>&nbsp;</span>
-                        <span>{{ tag }}</span>
+                        <span>{{ current_tag_suffix }}</span>
                         <label for="collection-filter-{{ i }}-clear" class="right">
                           <input class="collection-filter" style="display: none"
                             id="collection-filter-{{ i }}-clear"
@@ -94,10 +95,11 @@
               but also if it is the one we want
 
             {% endcomment %}
-            {% for tag in comet_filtergroup_tags %}
-              {% if collection.all_tags contains tag %}
-                {% assign tag_prefix = tag | split: '_' %}
-                {% assign tag_prefix = tag_prefix[0] %}
+            {% for tag in collection.all_tags %}
+              {% if tag contains comet_filtergroup_prefix %}
+                {% assign tag_parts = tag | split: '_' %}
+                {% assign tag_prefix = tag_parts[0] %}
+                {% assign tag_suffix = tag_parts[1] %}
                 {% if tag_prefix == comet_filtergroup_prefix %}
                   <li data-variant-tag="{{ tag | handleize }}">
                     <label for="collection-filter-{{ i }}-{{ tag | handleize }}"
@@ -116,7 +118,7 @@
                           checked="checked"
                         {% endif %}>
                       <span class="text">
-                        {{ tag }}
+                        {{ tag_suffix }}
                       </span>
                     </label>
                     </a>
