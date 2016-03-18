@@ -1,0 +1,15 @@
+{% for link in linklists.footer.links %}
+    {% if link.url == '/attach-menu' %}
+    <li class="small-12 medium-3 large-2 columns">
+      {% assign sublink_title = link.handle %}
+        <span class="footer__title">{{ sublink_title | remove: 'footer-' | replace: '-', ' ' }}</span>
+          {% for sublink in linklists[sublink_title].links %}
+            <div class="footer__link"><a class="" href="{{ sublink.url }}" title="{{ sublink.title }}">{{ sublink.title }}</a></div>
+          {% endfor %}
+    </li>
+    {% else %}
+      <li class="small-12 medium-3 large-2 columns">
+          <a class="footer__title single--menu" href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a>
+      </li>
+    {% endif %}
+{% endfor %}
