@@ -5,17 +5,17 @@ Some low-level, high-powered collection filters. The admin panel for these is ve
 
 ## Features
 
-**Granular Tag Filtering**
+**Automatic Tag Filtering**
 
-Control exactly which tags your Filter Groups contain, and in which order they appear
+Auto-populate your Filter Groups using tag prefixes. For example: `Brand Name_Toms`, `Color_Beige`, `Size_12`
 
 **Granular Filtering by Collection**
 
-Control exactly which Collections use which Filter Groups
+Control exactly which Collections use which Filter Groups, and in which order
 
 ## Dependencies
 
-Requires jQuery, but only for the UI, which is not needed for the logic to function
+Requires jQuery
 
 ## Installation
 
@@ -23,7 +23,7 @@ Requires jQuery, but only for the UI, which is not needed for the logic to funct
 
 1. add settings found in `config/settings_schema.json` into theme's `settings_schema.json`
 2. configure settings as needed
-3. ensure jquery, if needed, is being loaded on the page
+3. ensure jQuery is being loaded on the page
 4. place `snippets/collection-filters.liquid` into your project's `snippets/` directory
 5. include `collection-filters.liquid` from your `collection.liquid` template
 6. include the sass in `assets/collection-filters.scss` into your stylesheet by your preferred method
