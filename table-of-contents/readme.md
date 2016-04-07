@@ -70,3 +70,5 @@
 - [Shopify Preview](https://docs.google.com/document/d/106OYQ9WUSR7iT1rgEEnXvEEy2-9icuB1lyEY74tLVaM/edit)
 
 - [CometU Idea Box](https://docs.google.com/document/d/1BVy2AqLgsTWaiUi_eywe8Isp5MvCd8csVTKMKVRA87U/edit)
+
+- [El Capitan broke everything and I'm cry dot jpeg](https://docs.google.com/document/d/1SAZmrhBThtfHcWWZ2bOtu58PfoW92UdtFVH75Zbk7hs/edit#)
