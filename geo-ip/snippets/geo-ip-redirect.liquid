@@ -22,7 +22,7 @@
   var primaryDomain         = '{{ settings.comet_geoip_primary_domain }}';
   var secondaryDomain       = '{{ settings.comet_geoip_secondary_domain }}';
   var isPrimary             = {{ settings.comet_geoip_isprimary }};
-  var storeCode             = '{{ settings.comet_geoip_storecode }}';
+  var storeCode             = '{{ settings.comet_geoip_storecode | downcase }}';
   var fallbackDelay         = parseInt('{{ settings.comet_geoip_fallbackdelay }}', 10);
   var redirectToRoot        = {{ settings.comet_geoip_redirecttoroot }};
   var storeSwitcherEnabled  = {{ settings.comet_geoip_storeswitcher }} && $.cookie;
@@ -39,7 +39,6 @@
   if (fallbackDelay === NaN) {
     fallbackDelay = 5000;
   }
-  storeCode = storeCode.toLowerCase();
   
   {% comment %}
 

@@ -1,47 +1,47 @@
 {% comment %}
 
-	Geo IP redirect switcher
+  Geo IP redirect switcher
 
-	allow user to select which store they want to visit
+  allow user to select which store they want to visit
 
-	dependencies: jQuery
+  dependencies: jQuery
 
 {% endcomment %}
-{% assign comet_geoip_primary_code = settings.comet_geoip_primary_code %}
+{% assign comet_geoip_primary_code = settings.comet_geoip_primary_code | downcase %}
 {% assign comet_geoip_primary_name = settings.comet_geoip_primary_name %}
 {% assign comet_geoip_primary_domain = settings.comet_geoip_primary_domain %}
-{% assign comet_geoip_secondary_code = settings.comet_geoip_secondary_code %}
+{% assign comet_geoip_secondary_code = settings.comet_geoip_secondary_code | downcase %}
 {% assign comet_geoip_secondary_name = settings.comet_geoip_secondary_name %}
 {% assign comet_geoip_secondary_domain = settings.comet_geoip_secondary_domain %}
 
-<div id="comet-geo-ip-redirect-switcher" style="display: inline-block;">
-	<div class="select-wrapper">
-		<span class="selected-text">Select your Store</span>
-		<select id="comet-geo-ip-redirect-switcher-select">
-			<option value="">Select your Store</option>
-			<option value="#{{ comet_geoip_primary_code | downcase }}">{{ comet_geoip_primary_name }}</option>
-			<option value="#{{ comet_geoip_secondary_code | downcase }}">{{ comet_geoip_secondary_name }}</option>
-		</select>
-	</div>
-	<script id="comet-geo-ip-redirect-switcher-script">
-		jQuery(function($) {
-			'use strict';
-			$('#comet-geo-ip-redirect-switcher-select').on('change', function(e) {
-				var val = $(this).val(), loc;
-				e.preventDefault();
-				if (!val) {
-					return;
-				}
-				{% comment %} switch to primary site {% endcomment %}
-				if (val === '#{{ comet_geoip_primary_code }}' && location.href.match('{{ comet_geoip_secondary_domain }}')) {
-					loc = location.href.replace('{{ comet_geoip_secondary_domain }}', '{{ comet_geoip_primary_domain }}') + val;
-					location.href = loc;
-				{% comment %} switch to secondary site {% endcomment %}
-				} else if (val === '#{{ comet_geoip_secondary_code }}' && location.href.match('{{ comet_geoip_primary_domain }}')) {
-					loc = location.href.replace('{{ comet_geoip_primary_domain }}', '{{ comet_geoip_secondary_domain }}') + val;
-					location.href = loc;
-				}
-			});
-		});
-	</script>
+<div id="comet-geo-ip-redirect-switcher">
+  <div class="select-wrapper">
+    {% comment %}<span class="selected-text">Select your Store</span>{% endcomment %}
+    <select id="comet-geo-ip-redirect-switcher-select">
+      <option value="">Select your Store</option>
+      <option value="#{{ comet_geoip_primary_code }}">{{ comet_geoip_primary_name }}</option>
+      <option value="#{{ comet_geoip_secondary_code }}">{{ comet_geoip_secondary_name }}</option>
+    </select>
+  </div>
+  <script id="comet-geo-ip-redirect-switcher-script">
+    jQuery(function($) {
+      'use strict';
+      $('#comet-geo-ip-redirect-switcher-select').on('change', function(e) {
+        var val = $(this).val(), loc;
+        e.preventDefault();
+        if (!val) {
+          return;
+        }
+        {% comment %} switch to primary site {% endcomment %}
+        if (val === '#{{ comet_geoip_primary_code }}' && location.href.match('{{ comet_geoip_secondary_domain }}')) {
+          loc = location.href.replace('{{ comet_geoip_secondary_domain }}', '{{ comet_geoip_primary_domain }}') + val;
+          location.href = loc;
+        {% comment %} switch to secondary site {% endcomment %}
+        } else if (val === '#{{ comet_geoip_secondary_code }}' && location.href.match('{{ comet_geoip_primary_domain }}')) {
+          loc = location.href.replace('{{ comet_geoip_primary_domain }}', '{{ comet_geoip_secondary_domain }}') + val;
+          location.href = loc;
+        }
+      });
+    });
+  </script>
 </div>
