@@ -33,12 +33,12 @@
 
 - theme JS and Sass can be .liquid files and so must be separated
 - theme JS and CSS files will be compiled regardless of the following file types:
-	- .css
-	- .css.liquid
-	- .scss
-	- .scss.liquid
-	- .js
-	- .js.liquid
+	- `.css`
+	- `.css.liquid`
+	- `.scss`
+	- `.scss.liquid`
+	- `.js`
+	- `.js.liquid`
 - these still get automatically compiled with the rest of our CSS and JS
 - place theme JS files in:
 	- `/src/js/vendor/theme/`
