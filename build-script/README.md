@@ -69,7 +69,7 @@ The build script compiles our code differently depending on the environment it's
 - name your output Javascript file using the "javascriptName" property
 	- this will compile to `/theme/assets/${javascriptName}.js.liquid`
 - name your output Css file using the "stylesheetName" property
-	- this will compile to `/theme/assets/${stylesheetNAme}.scss.liquid`
+	- this will compile to `/theme/assets/${stylesheetName}.scss.liquid`
 - to run the build in production mode: set the "environment" variable to "production"
 
 ## Dat's It
