@@ -26,13 +26,11 @@ var concat 			= require('gulp-concat');
 var stripDebug 		= require('gulp-strip-debug');
 var uglify 			= require('gulp-uglify');
 var order 			= require('gulp-order');
+var convert			= require('gulp-utf8-convert');
+var headerfooter = require('gulp-headerfooter');
 
 /**
  * script vars
- * use these in our tasks
- * to determine which files we're compiling
- * where they're going
- * and so-on
  */
 var isProduction = pkg.environment === 'production';
 var pathToSrc = 'src/';
@@ -136,6 +134,14 @@ gulp.task('styles', ['srcStyles', 'themeStyles'], function() {
 	return gulp.src(['tmp/css/theme.scss.liquid', 'tmp/css/' + pkg.stylesheetName + '.css'])
 
 		.pipe(concat(pkg.stylesheetName + '.scss.liquid'))
+
+		.pipe(headerfooter.header('@charset "utf-8";\n'))
+
+		.pipe(convert({
+			encNotMatchHandle: function(file) {
+				console.log(file);
+			}
+		}))
 
 		.pipe(gulp.dest(pathToDest));
 
