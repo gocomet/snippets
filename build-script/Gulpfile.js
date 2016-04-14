@@ -220,7 +220,7 @@ gulp.task('srcScripts', function() {
 		}))
 
 		// output our js to our specified destination
-		.pipe(gulp.dest(pathToDest));
+		.pipe(gulp.dest('tmp/js'));
 
 });
 
@@ -240,6 +240,9 @@ gulp.task('scripts', ['srcScripts', 'themeScripts'], function() {
 
 		// final file name
 		.pipe(concat(pkg.javascriptName + '.js.liquid'))
+
+		// wrap entire script in IIFE
+		.pipe(headerfooter('(function(){\n', '\n})();'))
 
 		// output our js to our specified destination
 		.pipe(gulp.dest(pathToDest));
