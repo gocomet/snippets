@@ -9,6 +9,17 @@
 - is configurable
 - Runs on Node v5.8
 
+## Before you start
+
+Make sure you're running Node v5.8 using NVM, and that there is no node_modules/ file in your project dir. If there is, delete it.
+
+## Installation
+
+1. use node v5.8
+2. delete `node_modules/` dir, if exists
+3. drop `Gulpfile.js` and `package.json` into project root
+4. run `sudo npm install` from project root
+
 ## Commands
 
 - `gulp styles`: compiles stylesheets
@@ -44,6 +55,21 @@
 	- `/src/js/vendor/theme/`
 - place theme CSS files in:
 	- `/src/scss/vendor/theme/`
+- do _not_ call the theme css files from your main sass file
+
+## Ordering Theme JS and Sass files
+
+We don't have much control over the order in which the theme JS and Sass files are compiled -- they're just compiled alphabetically.
+
+To make sure a file is compiled before the others, just prefix it with an underscore. This is a good way to specify dependencies. For example:
+
+In `/src/js/vendor/theme`:
+
+- `_some.jquery.plugin.js`
+- `_some.other.dependency.js`
+- `theme.js.liquid`
+
+(the same goes for the theme css files)
 
 ## Production vs. Development Compiles
 
