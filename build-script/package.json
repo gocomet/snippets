@@ -1,5 +1,5 @@
 {
-  "environment": "production",
+  "environment": "develop",
   "stylesheetName": "css_shop",
   "javascriptName": "js_shop",
   "devDependencies": {

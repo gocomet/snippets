@@ -182,12 +182,14 @@ gulp.task('srcScripts', function() {
 	
 	return gulp.src(srcJs)
 		
+		// automatically order our scripts so that they'll compile and run properly
+		.pipe(order(srcJs, {
+			base: './'
+		}))
+
 		// js hinting for code standards
 		.pipe(jshint())
 		.pipe(jshint.reporter('default'))
-
-		// automatically order our scripts so that they'll compile and run properly
-		.pipe(order(srcJs))
 
 		// if we're not in production mode, prepare to output sass sourcemaps
 		.pipe(gulpif(!isProduction, srcmaps.init()))
@@ -220,7 +222,7 @@ gulp.task('srcScripts', function() {
 		}))
 
 		// output our js to our specified destination
-		.pipe(gulp.dest(pathToDest));
+		.pipe(gulp.dest('tmp/js'));
 
 });
 
@@ -236,10 +238,15 @@ gulp.task('srcScripts', function() {
  */
 gulp.task('scripts', ['srcScripts', 'themeScripts'], function() {
 
+	console.log(srcJs);
+
 	return gulp.src(['tmp/js/theme.js.liquid', 'tmp/js/' + pkg.javascriptName + '.js'])
 
 		// final file name
 		.pipe(concat(pkg.javascriptName + '.js.liquid'))
+
+		// wrap entire script in IIFE
+		.pipe(headerfooter('(function(){\n', '\n})();'))
 
 		// output our js to our specified destination
 		.pipe(gulp.dest(pathToDest));

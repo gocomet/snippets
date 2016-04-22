@@ -43,7 +43,7 @@
 
 - [VWO Implement Revenue Tracking](https://docs.google.com/document/d/1fioZP0F8xBlaRVBdemQZGMz9E-hUI0dyTu8n-MmUVWU/edit)
 
-- [Twitter Card Implementation](https://docs.google.com/document/d/1NRha6zMqX0hAj-vy_u3x2WuQhszhaNg-uJKN4qa4R7U/edit)
+- [Twitter Card Implementation](https://docs.google.com/document/d/1O48xEKbmxx1buuZDWcinqvJwOLFB9fNmB1QFVikKCkY/edit)
 
 - [Shopify App Installations](https://docs.google.com/document/d/1-NCxjz1SeXa5vc1FG09yEuFmYz8EBkEPjUpB_-UvSWM/edit)
 
@@ -71,4 +71,6 @@
 
 - [CometU Idea Box](https://docs.google.com/document/d/1BVy2AqLgsTWaiUi_eywe8Isp5MvCd8csVTKMKVRA87U/edit)
 
-- [El Capitan broke everything and I'm cry dot jpeg](https://docs.google.com/document/d/1SAZmrhBThtfHcWWZ2bOtu58PfoW92UdtFVH75Zbk7hs/edit#)
+- [El Capitan broke everything and I'm crying dot jpeg](https://docs.google.com/document/d/1SAZmrhBThtfHcWWZ2bOtu58PfoW92UdtFVH75Zbk7hs/edit#)
+
+- [Shopify Dev Store Setup](https://docs.google.com/document/d/1kaq8UKTMvz24pcvRZHLUhunl5a2iR8BIOLgT5o0mm5Y/edit)
