@@ -1,0 +1,67 @@
+.accordion {
+	h2 {
+		border-bottom: 1px solid rgba(#3E3E3E, .25);
+		cursor: pointer;
+
+		&:after {
+			content: '+';
+			float: right;
+		}
+
+		&.accordion-active:after {
+			content: '-';
+		}
+	}
+
+	// overwrite margin with padding on accordion elements
+	// so animations don't jump when display switches on/off
+	h2 {
+		margin: 0;
+		padding: 15px 0;
+	}
+
+	h3 {
+		margin: 0;
+		padding: 18px 0 0;
+	}
+
+	h4 {
+		margin: 0;
+		padding: 16px 0 0;
+	}
+
+	h5 {
+		margin: 0;
+		padding: 22px 0 0;
+	}
+
+	h6 {
+		margin: 0;
+		padding: 24px 0 0;
+	}
+
+	ul,
+	ol {
+		margin-bottom: 0;
+		margin-top: 0;
+		padding-bottom: 0;
+		padding-top: 16px;
+	}
+
+	p {
+		margin: 0;
+		padding: 20px 0 0;
+	}
+}
+
+.accordion-fade {
+	opacity: 0;
+	transition: opacity .2s ease-in, visibility .2s ease-in;
+	visibility: hidden;
+
+	&.accordion-active {
+		opacity: 1;
+		transition: opacity .2s ease-out;
+		visibility: visible;
+	}
+}

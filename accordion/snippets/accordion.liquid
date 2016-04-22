@@ -1,0 +1,127 @@
+{% comment %}
+	
+	accordion.liquid
+
+	a style-agnostic accordion
+
+	place this snippet in a page template you want to use an accordion in
+	for example, include inside `page.faq.liquid`
+
+	set the element you want to use as a toggle in the `data-accordion-toggle` attribute
+	defaults to "h2"
+
+	set the toggle speed (in ms) in the `data-accordion-speed` attribute
+	defaults to 200
+
+	requires jquery
+
+{% endcomment %}
+<div class="rte accordion accordion-fade" data-accordion-toggle="h2" data-accordion-speed="200">
+	{{ page.content }}
+</div>
+<script>
+	(function($, undefined) {
+
+		'use strict';
+	
+		var prefix = 'data-accordion';
+		var att = prefix + '-toggle';
+		var $acc = $('[' + att + ']');
+		var acc = $acc[0];
+		var ANIM_TIME = parseInt(acc.getAttribute(prefix + '-speed'), 10);
+		var DBL_ANIM_TIME = ANIM_TIME * 2.5;
+		var ACTIVE_CLASS = 'accordion-active';
+		var FADE_CLASS = 'accordion-fade';
+		var $toggles = $acc.find(acc.getAttribute(att));
+		var aToggleIsOpen = false;
+
+		var closeToggle = function closeToggle() {
+
+			var $toggle = $(this);
+			var $content = $toggle.data('content.toggle');
+
+			$toggle.data('open.toggle', false);
+
+			$toggle.removeClass(ACTIVE_CLASS);
+			$content.removeClass(ACTIVE_CLASS);
+
+			setTimeout(function() {
+				$content.slideUp({
+					duration: ANIM_TIME,
+					easing: 'easeOutQuad'
+				});
+			}, ANIM_TIME);
+
+		};
+
+		var openToggle = function openToggle() {
+
+			var $toggle = $(this);
+			var $content = $toggle.data('content.toggle');
+
+			$toggle.data('open.toggle', true);
+
+			$toggle.addClass(ACTIVE_CLASS);
+			$content.slideDown({
+				duration: ANIM_TIME,
+				easing: 'easeInQuad'
+			});
+
+			setTimeout(function() {
+				$content.addClass(ACTIVE_CLASS);
+			}, ANIM_TIME)
+
+			aToggleIsOpen = true;
+
+		};
+
+		// click event handler on toggles
+		$toggles.on('click', function() {
+
+			var _this = this;
+			var $this = $(this);
+			var isOpen = $this.data('open.toggle');
+			
+			if (isOpen) {
+
+				closeToggle.call(this);
+				aToggleIsOpen = false;
+
+			} else if (aToggleIsOpen) {
+				
+				$toggles.not(this).each(closeToggle);
+
+				setTimeout(function() {
+
+					openToggle.call(_this);
+
+				}, DBL_ANIM_TIME);
+				
+			} else {
+
+				openToggle.call(this);
+
+			}
+		});
+
+		// init
+		// bind data relative to each toggle
+		// hide elements that should be hidden
+		// show accordion
+		$toggles.each(function() {
+
+			var $this = $(this);
+			var $content = $this.nextUntil('h2');
+
+			$content.addClass(FADE_CLASS);
+			$content.hide();
+
+			$this.data('content.toggle', $content);
+			$this.data('open.toggle', false);
+
+			$acc.addClass(ACTIVE_CLASS);
+
+		});
+
+	})(jQuery);
+</script>
