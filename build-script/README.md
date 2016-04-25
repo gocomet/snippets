@@ -15,17 +15,21 @@ Make sure you're running Node v5.8 using NVM, and that there is no node_modules/
 
 ## Installation
 
-1. use node v5.8
-2. delete `node_modules/` dir, if exists
-3. drop `Gulpfile.js` and `package.json` into project root
-4. run `sudo npm install` from project root
+1. go to project directory
+2. use node v5.8
+3. delete `node_modules/` dir, if exists
+4. drop `Gulpfile.js` and `package.json` into project root
+5. create src/ folder and subfolders if they don't exist
+6. run `sudo npm install` from project root
 
 ## Commands
 
 - `gulp styles`: compiles stylesheets
 - `gulp scripts`: compiles JS
+- `gulp images`: compresses images in assets folder
 - `gulp watch`: watches for changes in src folder, then compiles CSS and/or JS
-- `gulp`: runs all three commands above, in sequence
+- `gulp`: runs all four commands above, in sequence
+- `gulp compile`: runs a production compile of stylesheets and JS, and compresses images
 
 ## Compiling Source JS and Sass
 

@@ -13,7 +13,7 @@
  * and npm modules
  */
 var pkg				= require('./package.json');
-var gulp 			= require('gulp');
+var gulp			= require('gulp');
 var gulpif 			= require('gulp-if');
 var srcmaps 		= require('gulp-sourcemaps');
 var sass 			= require('gulp-sass');
@@ -27,7 +27,9 @@ var stripDebug 		= require('gulp-strip-debug');
 var uglify 			= require('gulp-uglify');
 var order 			= require('gulp-order');
 var convert			= require('gulp-utf8-convert');
-var headerfooter = require('gulp-headerfooter');
+var headerfooter 	= require('gulp-headerfooter');
+var imagemin 		= require('gulp-imagemin');
+var pngquant 		= require('imagemin-pngquant');
 
 /**
  * script vars
@@ -57,6 +59,14 @@ var themeScss = [
 	pathToScss + 'vendor/theme/*.css.liquid',
 	pathToScss + 'vendor/theme/*.scss',
 	pathToScss + 'vendor/theme/*.scss.liquid'
+];
+
+var themeImgs = [
+	pathToDest + '/*.jpg',
+	pathToDest + '/*.jpeg',
+	pathToDest + '/*.png',
+	pathToDest + '/*.gif',
+	pathToDest + '/*.svg'
 ];
 
 /**
@@ -238,8 +248,6 @@ gulp.task('srcScripts', function() {
  */
 gulp.task('scripts', ['srcScripts', 'themeScripts'], function() {
 
-	console.log(srcJs);
-
 	return gulp.src(['tmp/js/theme.js.liquid', 'tmp/js/' + pkg.javascriptName + '.js'])
 
 		// final file name
@@ -249,6 +257,29 @@ gulp.task('scripts', ['srcScripts', 'themeScripts'], function() {
 		.pipe(headerfooter('(function(){\n', '\n})();'))
 
 		// output our js to our specified destination
+		.pipe(gulp.dest(pathToDest));
+
+});
+
+/**
+ * gulp images task
+ *
+ * `gulp images`
+ *
+ * compress all images in theme assets folder
+ */
+gulp.task('images', function() {
+
+	return gulp.src(themeImgs)
+
+		.pipe(imagemin({
+			
+			progressive: true,
+			svgoPlugins: [{removeViewBox: false}],
+			use: [pngquant()]
+		
+		}))
+		
 		.pipe(gulp.dest(pathToDest));
 
 });
@@ -282,6 +313,21 @@ gulp.task('watch', function() {
 });
 
 /**
+ * gulp compile task
+ *
+ * `gulp compile`
+ *
+ * compiles all scss, js, and compresses images
+ * useful for forcing a production compile
+ */
+gulp.task('compile', function() {
+
+	isProduction = true;
+	gulp.start('styles', 'scripts', 'images');
+
+});
+
+/**
  * gulp default task
  *
  * `gulp`
@@ -291,7 +337,7 @@ gulp.task('watch', function() {
  */
 gulp.task('default', function() {
 	
-	gulp.start('styles', 'scripts');
+	gulp.start('styles', 'scripts', 'images');
 	gulp.start('watch');
 
 });
