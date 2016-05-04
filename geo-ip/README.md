@@ -29,6 +29,22 @@ Requires jQuery. Also requires jquery.cookie.js if you want to use the Store Swi
 6. include `geo-ip-redirect-cover.liquid` in `<body>` tag, directly after it opens
 7. if you're using the store switcher, include `geo-ip-redirect-switcher.liquid` wherever you want it on the page
 
+## Configuration
+
+Carefully follow the instructions in the Theme Settings for the configuration. The general rule is: the sister sites will need matching information.
+
+**For example**
+
+- You have two sites: North America and Europe.
+- The Primary Domain field is `my-na-store.com`
+- The Secondary Domain field is `my-eu-store.com`
+- These settings should be the same on both stores
+
+The only two settings that _can_ be different are:
+
+- This Store Is the Primary Store
+- Redirect To Root
+
 ## Finally
 
 We keep track of which clients use our Geo-IP service; when you implement this feature for a client, be sure to let Rodolfo know!
