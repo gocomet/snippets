@@ -12,27 +12,36 @@
 
   Dependencies: jQuery, jquery.cookie.js
 
+  Related snippets: geo-ip-redirect-switcher.liquid, geo-ip-redirect-cover.liquid
+
 {% endcomment %}
 {% assign comet_geoip_secondary_codes = settings.comet_geoip_secondary_codes | split: ',' %}
 <script id="comet-geo-ip-redirect">
 ;(function($, NaN, undefined) {
   'use strict';
 
-  var called                = false;
-  var primaryDomain         = '{{ settings.comet_geoip_primary_domain }}';
-  var secondaryDomain       = '{{ settings.comet_geoip_secondary_domain }}';
-  var isPrimary             = {{ settings.comet_geoip_isprimary }};
-  var storeCode             = '{{ settings.comet_geoip_storecode | downcase }}';
-  var fallbackDelay         = parseInt('{{ settings.comet_geoip_fallbackdelay }}', 10);
-  var redirectToRoot        = {{ settings.comet_geoip_redirecttoroot }};
-  var storeSwitcherEnabled  = {{ settings.comet_geoip_storeswitcher }} && $.cookie;
-  var cookieName            = '{{ settings.comet_geoip_cookiename }}';
-  var geoIPService          = '{{ settings.comet_geoip_service }}';
-  var coverID               = '#comet-geo-ip-redirect-cover';
+  var called = false;
+  var primaryDomain = '{{ settings.comet_geoip_primary_domain }}';
+  var secondaryDomain = '{{ settings.comet_geoip_secondary_domain }}';
+  var isPrimary = {{ settings.comet_geoip_isprimary }};
+  {% if settings.comet_geoip_isprimary %}
+    var storeCode = '{{ settings.comet_geoip_primary_name | handleize }}';
+  {% else %}
+    var storeCode = '{{ settings.comet_geoip_secondary_name | handleize }}';
+  {% endif %}
+  var fallbackDelay = parseInt('{{ settings.comet_geoip_fallbackdelay }}', 10);
+  var redirectToRoot = {{ settings.comet_geoip_redirecttoroot }};
+  var storeSwitcherEnabled = {{ settings.comet_geoip_storeswitcher }} && $.cookie;
+  var domainHandle = location.hostname.replace(/\./g, '-') + '-';
+  var cookieName = 'comet-geoip-' + domainHandle + storeCode;
+  var geoIPService = '{{ settings.comet_geoip_service }}';
+  var coverID = '#comet-geo-ip-redirect-cover';
+  var selectID = '#comet-geo-ip-redirect-switcher-select';
   var rightDomain;
   var wrongDomain;
-  var secondaryCodes        = [
-    {% for cc in comet_geoip_secondary_codes %}'{{ cc }}'{% unless forloop.last %},{% endunless %}{% endfor %}
+  var secondaryCodes = [
+    {% for cc in comet_geoip_secondary_codes %}'{{ cc }}'{% unless forloop.last %},{% endunless %}
+    {% endfor %}
   ];
 
   {% comment %} Variable sanitization {% endcomment %}
@@ -52,49 +61,61 @@
     we can override the geo ip manually by just adding a hash
     with the store code we want
     in the url
-    example: my-eu-store.com/#eu
+    example: my-eu-store.com/#europe
     will keep you on the EU store
-    even if youre not in europe
+    even if you're not in europe
 
   {% endcomment %}
   function onSuccess(loc) {
-    var $cover, inSecondary, atWrongSite, newLoc;
+    var $cover;
+    var $select;
+    var inSecondary;
+    var atWrongSite;
+    var newLoc;
     
     called = true;
 
     $cover = $(coverID);
-    
+    $select = $(selectID);
+
     if (loc) {
       inSecondary = $.inArray(loc.country_code, secondaryCodes) > -1;
-      if (isPrimary) {
+      {% if settings.comet_geoip_isprimary %}
         atWrongSite = inSecondary;
         rightDomain = secondaryDomain;
         wrongDomain = primaryDomain;
-      } else {
+      {% else %}
         atWrongSite = !inSecondary;
         rightDomain = primaryDomain;
         wrongDomain = secondaryDomain;
-      }
+      {% endif %}
     }
 
     if (loc && (atWrongSite && location.hash !== '#' + storeCode{% if settings.comet_geoip_storeswitcher %} && $.cookie(cookieName) !== storeCode{% endif %})) {
-      if (redirectToRoot) {
-        window.location = '//' + rightDomain;
-      } else {
+      {% if settings.comet_geoip_redirecttoroot %}
+        window.location.href = '//' + rightDomain;
+      {% else %}
         newLoc = window.location.href.replace(window.location.hash, '');
         newLoc = newLoc.replace(wrongDomain, rightDomain);
-        window.location = newLoc;
-      }
+        window.location.href = newLoc;
+      {% endif %}
     } else {
-      if (storeSwitcherEnabled) {
-        $.cookie(cookieName, storeCode, { path: '/' });
-      }
       if ($cover.length) {
         $cover.remove();
       } else {
         $(function() {
           $(coverID).remove();
         });
+      }
+      if (storeSwitcherEnabled) {
+        $.cookie(cookieName, storeCode, { path: '/' });
+        if ($select.length) {
+          $select.val('#' + storeCode);
+        } else {
+          $(function() {
+            $(selectID).val('#' + storeCode);
+          });
+        }
       }
     }
   }

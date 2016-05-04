@@ -7,37 +7,51 @@
 		},
 		{
 			"type": "paragraph",
-			"content": "It is possible to make breaking changes to your site here. Do not edit these settings unless you're absolutely sure of what you're doing."
+			"content": "It is possible to make breaking changes to your store here. Do not edit these settings unless you're absolutely sure of what you're doing!"
+		},
+		{
+			"type": "header",
+			"content": "Note"
+		},
+		{
+			"type": "paragraph",
+			"content": "All Fields Required"
 		},
 		{
 			"id": "comet_geoip_primary_domain",
 			"type": "text",
 			"label": "Primary Domain",
-			"info": "Enter the domain of the primary site -- the one that all users should see by default"
+			"info": "Enter the domain of the primary store -- the one that all users should see by default"
 		},
 		{
 			"id": "comet_geoip_secondary_domain",
 			"type": "text",
 			"label": "Secondary Domain",
-			"info": "Enter the domain of the secondary site -- the one that only users from certain countries should see"
+			"info": "Enter the domain of the secondary store -- the one that only users from certain countries should see"
+		},
+		{
+			"id": "comet_geoip_primary_name",
+			"type": "text",
+			"label": "Primary Store Name",
+			"info": "Enter the name you wish to use for the Primary store (this will also appear on the Store Switcher)"
+		},
+		{
+			"id": "comet_geoip_secondary_name",
+			"type": "text",
+			"label": "Secondary Store Name",
+			"info": "Enter the name you wish to use for the Secondary store (this will also appear on the Store Switcher)"
 		},
 		{
 			"id": "comet_geoip_isprimary",
 			"type": "checkbox",
-			"label": "This Site is the Primary Site",
-			"info": "Check this box if this site is the primary site"
-		},
-		{
-			"id": "comet_geoip_storecode",
-			"type": "text",
-			"label": "Site Country Code",
-			"info": "Enter the Country Code of this site (example: CA)"
+			"label": "This Store is the Primary Store",
+			"info": "Check this box if this store is the primary store"
 		},
 		{
 			"id": "comet_geoip_secondary_codes",
 			"type": "textarea",
-			"label": "Secondary site Country Codes",
-			"info": "Enter a comma-separated list of the country codes that should redirect to the secondary site (example: FR,UK,BG)"	
+			"label": "Secondary store Country Codes",
+			"info": "Enter a comma-separated list of the country codes that should redirect to the secondary store (example: FR,UK,BG)"
 		},
 		{
 			"id": "comet_geoip_redirecttoroot",
@@ -60,42 +74,8 @@
 			"id": "comet_geoip_storeswitcher",
 			"type": "checkbox",
 			"label": "Enable Store Switcher",
-			"info": "Check if you want to enable a store switcher on your site",
+			"info": "Check if you want to enable a store switcher on your store. Be sure you enable or disable on both stores equally",
 			"default": false
-		},
-		{
-			"type": "paragraph",
-			"content": "*The following settings are required when the Store Switcher in enabled"
-		},
-		{
-			"id": "comet_geoip_primary_code",
-			"type": "text",
-			"label": "Primary Site Country Code",
-			"info": "Enter the Country Code for the Primary Site"
-		},
-		{
-			"id": "comet_geoip_primary_name",
-			"type": "text",
-			"label": "Primary Site Name",
-			"info": "Enter the Name you wish to use for the Primary Site (this will appear on the Store Switcher)"
-		},
-		{
-			"id": "comet_geoip_secondary_code",
-			"type": "text",
-			"label": "Secondary Site Country Code",
-			"info": "Enter the Country Code for the Secondary Site"
-		},
-		{
-			"id": "comet_geoip_secondary_name",
-			"type": "text",
-			"label": "Secondary Site Name",
-			"info": "Enter the Name you wish to use for the Secondary Site (this will appear on the Store Switcher)"
-		},
-		{
-			"id": "comet_geoip_cookiename",
-			"type": "text",
-			"label": "Site Cookie Name",
-			"info": "Enter the cookie name to be used for this site's store switcher"
 		}
 	]
 }
