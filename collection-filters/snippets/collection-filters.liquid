@@ -186,6 +186,15 @@
 
           {% if collection.handle %}
             newURL = '/collections/{{ collection.handle }}';
+
+            {% comment %}
+              remove pagination query 
+              because it causes unexpected behaviour
+            {% endcomment %}
+            if (Shopify.queryParams.page) {
+              delete Shopify.queryParams.page;
+            }
+            
             if (newTags.length) {
               newURL += '/' + newTags.join('+');
             }
