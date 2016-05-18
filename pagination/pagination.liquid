@@ -1,0 +1,24 @@
+<!-- snippets/pagination.liquid -->
+
+{% if paginate.pages > 1 %}  
+  <div class="pagination">
+    <div class="paginate">
+      {% if paginate.previous %}
+        <a href="{{ paginate.previous.url }}"><i class="fa fa-caret-left"></i> {{ 'collections.pagination.previous' | t }}</a>
+      {% endif %}
+      {% assign count = paginate.pages %}
+      {% for part in (1..count) %}
+            <span><a href="javascript:void(0);" class="{% if paginate.current_page == part %} active{% endif %}" data-pagination-num="{{ forloop.index }}">{{ forloop.index }}</a></span>
+      {% endfor %}
+      {% if paginate.next %}
+        <a href="{{ paginate.next.url }}">{{ 'collections.pagination.next' | t }} <i class="fa fa-caret-right"></i></a>
+      {% endif %}
+    </div>  
+  </div>
+  <script type="text/javascript">
+      $('[data-pagination-num]').on('click', function() {
+          Shopify.queryParams.page = $(this).attr("data-pagination-num");
+          location.search = jQuery.param(Shopify.queryParams);
+      });
+  </script>
+{% endif %}
