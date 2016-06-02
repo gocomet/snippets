@@ -1,8 +1,8 @@
 <!-- snippets/hp-banner.liquid -->
 {% if settings.hp_banner_enabled %}
   <section class="row--fullwidth banner">
-    <div class="banner__bg bg vcenterer" style="background-image: url({{ 'img_homepage_banner.jpg' | asset_url }});">
-      <div class="banner__row vcenteree">
+    <div class="banner__bg" style="background-image: url({{ 'img_homepage_banner.jpg' | asset_url }});">
+      <div class="banner__row">
         <div class="banner__content column small-12">
           {% if settings.hp_banner_title != blank %}
             <h1 class="banner__heading">{{ settings.hp_banner_title }}</h1>

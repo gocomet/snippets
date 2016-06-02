@@ -13,7 +13,7 @@ A simple customizable homepage banner
 
 ## Dependencies
 
-None!  Get yo banner on.
+Foundation Grid
 
 ## Installation
 
