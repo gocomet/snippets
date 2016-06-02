@@ -1,0 +1,40 @@
+<!-- snippets/hp-slideshow.liquid -->
+<section class="row featured-slider">
+  {% comment %}
+  Homepage Slider
+  contains four items
+  configured in the theme settings
+  {% endcomment %}
+  {% assign hp_slides = '1,2,3,4' %}
+  {% assign hp_slides = hp_slides | split: ',' %}
+  {% comment %}
+  Loop through items
+  to create the slides
+  {% endcomment %}
+  <div class="featured-slider__slides">
+    {% for s in hp_slides %}
+      {% assign slide_key = 'hp_featuredslider_slide' | append: s %}
+      {% assign slide_enabled = slide_key | append: '_enabled' %}
+      {% assign slide_img = slide_key | append: '_img.jpg' %}
+      {% assign slide_heading = slide_key | append: '_heading' %}
+      {% assign slide_text = slide_key | append: '_text' %}
+      {% assign slide_btnurl = slide_key | append: '_btn-url' %}
+      {% assign slide_btntext = slide_key | append: '_btn-text' %}
+      {% if settings[slide_enabled] %}
+        <div class="slick-slide">
+          <div class="featured-slide__bg" style="background-image: url({{ slide_img | asset_url }});">
+            {% if settings[slide_heading] != blank %}
+              <h1 class="featured-slide__heading">{{ settings[slide_heading] }}</h1>
+            {% endif %}
+            {% if settings[slide_text] != blank %}
+              <p class="featured-slide__text">{{ settings[slide_text] }}</p>
+            {% endif %}
+            {% if settings[slide_btnurl] != blank %}
+              <a href="{{ settings[slide_btnurl] }}" class="button">{{ settings[slide_btntext] }}</a>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
