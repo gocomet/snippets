@@ -1,81 +1,81 @@
-{
-	"name": "Comet Geo IP",
-	"settings": [
-		{
-			"type": "header",
-			"content": "Warning"
-		},
-		{
-			"type": "paragraph",
-			"content": "It is possible to make breaking changes to your store here. Do not edit these settings unless you're absolutely sure of what you're doing!"
-		},
-		{
-			"type": "header",
-			"content": "Note"
-		},
-		{
-			"type": "paragraph",
-			"content": "All Fields Required"
-		},
-		{
-			"id": "comet_geoip_primary_domain",
-			"type": "text",
-			"label": "Primary Domain",
-			"info": "Enter the domain of the primary store -- the one that all users should see by default"
-		},
-		{
-			"id": "comet_geoip_secondary_domain",
-			"type": "text",
-			"label": "Secondary Domain",
-			"info": "Enter the domain of the secondary store -- the one that only users from certain countries should see"
-		},
-		{
-			"id": "comet_geoip_primary_name",
-			"type": "text",
-			"label": "Primary Store Name",
-			"info": "Enter the name you wish to use for the Primary store (this will also appear on the Store Switcher)"
-		},
-		{
-			"id": "comet_geoip_secondary_name",
-			"type": "text",
-			"label": "Secondary Store Name",
-			"info": "Enter the name you wish to use for the Secondary store (this will also appear on the Store Switcher)"
-		},
-		{
-			"id": "comet_geoip_isprimary",
-			"type": "checkbox",
-			"label": "This Store is the Primary Store",
-			"info": "Check this box if this store is the primary store"
-		},
-		{
-			"id": "comet_geoip_secondary_codes",
-			"type": "textarea",
-			"label": "Secondary store Country Codes",
-			"info": "Enter a comma-separated list of the country codes that should redirect to the secondary store (example: FR,UK,BG)"
-		},
-		{
-			"id": "comet_geoip_redirecttoroot",
-			"type": "checkbox",
-			"label": "Redirect to Root",
-			"info": "Check this box if you want to redirect to the site root, instead of the corresponding page a user might be on"
-		},
-		{
-			"id": "comet_geoip_fallbackdelay",
-			"type": "text",
-			"label": "Fallback Delay",
-			"info": "Enter the delay (in ms) before fallback kicks in"
-		},
-		{
-			"id": "comet_geoip_service",
-			"type": "text",
-			"label": "Geo IP Service URL"
-		},
-		{
-			"id": "comet_geoip_storeswitcher",
-			"type": "checkbox",
-			"label": "Enable Store Switcher",
-			"info": "Check if you want to enable a store switcher on your store. Be sure you enable or disable on both stores equally",
-			"default": false
-		}
-	]
-}
+  {
+    "name": "Comet Geo IP",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Warning"
+      },
+      {
+        "type": "paragraph",
+        "content": "It is possible to make breaking changes to your store here. Do not edit these settings unless you're absolutely sure of what you're doing!"
+      },
+      {
+        "type": "header",
+        "content": "Note"
+      },
+      {
+        "type": "paragraph",
+        "content": "All Fields Required"
+      },
+      {
+        "id": "comet_geoip_primary_domain",
+        "type": "text",
+        "label": "Primary Domain",
+        "info": "Enter the domain of the primary store -- the one that all users should see by default. (Do NOT include www or http:\/\/ or https:\/\/)"
+      },
+      {
+        "id": "comet_geoip_secondary_domain",
+        "type": "text",
+        "label": "Secondary Domain",
+        "info": "Enter the domain of the secondary store -- the one that only users from certain countries should see. (Do NOT include www or http:\/\/ or https:\/\/)"
+      },
+      {
+        "id": "comet_geoip_primary_name",
+        "type": "text",
+        "label": "Primary Store Name",
+        "info": "Enter the name you wish to use for the Primary store (this will also appear on the Store Switcher)"
+      },
+      {
+        "id": "comet_geoip_secondary_name",
+        "type": "text",
+        "label": "Secondary Store Name",
+        "info": "Enter the name you wish to use for the Secondary store (this will also appear on the Store Switcher)"
+      },
+      {
+        "id": "comet_geoip_isprimary",
+        "type": "checkbox",
+        "label": "This Store is the Primary Store",
+        "info": "Check this box if this store is the primary store"
+      },
+      {
+        "id": "comet_geoip_secondary_codes",
+        "type": "textarea",
+        "label": "Secondary store Country Codes",
+        "info": "Enter a comma-separated list of the country codes that should redirect to the secondary store (example: FR,UK,BG)"
+      },
+      {
+        "id": "comet_geoip_redirecttoroot",
+        "type": "checkbox",
+        "label": "Redirect to Root",
+        "info": "Check this box if you want to redirect to the site root, instead of the corresponding page a user might be on"
+      },
+      {
+        "id": "comet_geoip_fallbackdelay",
+        "type": "text",
+        "label": "Fallback Delay",
+        "info": "Enter the delay (in ms) before fallback kicks in"
+      },
+      {
+        "id": "comet_geoip_service",
+        "type": "text",
+        "label": "Geo IP Service URL"
+      },
+      {
+        "id": "comet_geoip_storeswitcher",
+        "type": "checkbox",
+        "label": "Enable Store Switcher",
+        "info": "Check if you want to enable a store switcher on your store. Be sure you enable or disable on both stores equally",
+        "default": false
+      }
+    ]
+  }
