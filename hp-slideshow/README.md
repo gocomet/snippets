@@ -15,8 +15,8 @@ A customizable homepage slideshow
 
 ## Dependencies
 
-Slick Slider (js and scss)
-Foundation Grid
+- Slick Slider (js and scss)
+- Foundation Grid
 
 ## Installation
 
