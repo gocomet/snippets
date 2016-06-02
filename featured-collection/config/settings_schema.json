@@ -1,0 +1,16 @@
+{
+  "name": "Featured Collection",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "featuredcoll_enabled",
+      "label": "Enable Homepage Featured Collection",
+      "default": true
+    },
+    {
+      "type": "collection",
+      "id": "featuredcoll_collection",
+      "label": "Featured Collection"
+    }
+  ]
+}

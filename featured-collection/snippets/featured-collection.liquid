@@ -1,0 +1,18 @@
+{% if settings.featuredcoll_enabled %}
+	{% assign featured_coll = collections[settings.featuredcoll_collection] %}
+	{% assign featured_prods = featured_coll.products %}
+
+	<div class="row featured-collection">
+		<h2 class="featured-collection__title">{{ featured_coll.title }}</h2>
+		<div class="rte featured-collection__description">
+			{{ featured_coll.description }}
+		</div>
+		<div class="featured-collection__products">
+			{% for prod in featured_prods limit: 4 %}
+				<div class="featured-collection__product">
+					{% include 'product-thumbnail' with prod  %}
+				</div>
+			{% endfor %} 
+		</div>
+	</div>
+{% endif %}
