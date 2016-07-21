@@ -1,0 +1,38 @@
+{
+  "name": "Homepage Banner",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "hp_banner_enabled",
+      "label": "Enable Homepage Banner",
+      "default": true
+    },
+    {
+      "type": "image",
+      "id": "img_homepage_banner.jpg",
+      "label": "Homepage Banner Image",
+      "max-width": 2560,
+      "max-height": 2560
+    },
+    {
+      "type": "text",
+      "id": "hp_banner_title",
+      "label": "Homepage Banner Title"
+    },
+    {
+      "type": "text",
+      "id": "hp_banner_text",
+      "label": "Homepage Banner Text"
+    },
+    {
+      "type": "text",
+      "id": "hp_banner_button_url",
+      "label": "Homepage Banner Button URL"
+    },
+    {
+      "type": "text",
+      "id": "hp_banner_button_text",
+      "label": "Homepage Banner Button Text"
+    }
+  ]
+}

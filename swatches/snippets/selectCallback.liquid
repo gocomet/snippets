@@ -1,0 +1,24 @@
+<script id="select-callback-script">
+  (function($, undefined) {
+    'use strict';
+
+    function updateSwatches(variant, selector) {
+      var $form;
+      var $radioButtons;
+      var len;
+      var i;
+
+      $form = $('#' + selector.domIdPrefix).closest('form');
+      
+      for (i = 0, len = variant.options.length; i < len; i++) {
+        $radioButtons = $form
+          .find('.swatch[data-option-index="' + i + '"]')
+          .find(':radio[value="' + variant.options[i] +'"]');
+        
+        if ($radioButtons.length) {
+          $radioButtons[0].checked = true;
+        }
+      } 
+    }
+  })(jQuery);
+</script>

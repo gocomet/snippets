@@ -1,0 +1,147 @@
+{
+  "name": "Homepage Featured Slider",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "hp_featuredslider_enabled",
+      "label": "Enable Homepage Featured Slider",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Featured Slide 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "hp_featuredslider_slide1_enabled",
+      "label": "Slide 1 Enabled"
+    },
+    {
+      "type": "image",
+      "id": "hp_featuredslider_slide1_img.jpg",
+      "label": "Slide 1 Image"
+    },
+    {
+      "type": "text",
+      "id": "hp_featuredslider_slide1_heading",
+      "label": "Slide 1 Heading"
+    },
+    {
+      "type": "text",
+      "id": "hp_featuredslider_slide1_text",
+      "label": "Slide 1 Text"
+    },
+    {
+      "type": "text",
+      "id": "hp_featuredslider_slide1_btn-url",
+      "label": "Slide 1 Button URL"
+    },
+    {
+      "type": "text",
+      "id": "hp_featuredslider_slide1_btn-text",
+      "label": "Slide 1 Button Text"
+    },
+    {
+      "type": "header",
+      "content": "Featured Slide 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "hp_featuredslider_slide2_enabled",
+      "label": "Slide 2 Enabled"
+    },
+    {
+      "type": "image",
+      "id": "hp_featuredslider_slide2_img.jpg",
+      "label": "Slide 2 Image"
+    },
+    {
+      "type": "text",
+      "id": "hp_featuredslider_slide2_heading",
+      "label": "Slide 2 Heading"
+    },
+    {
+      "type": "text",
+      "id": "hp_featuredslider_slide2_text",
+      "label": "Slide 2 Text"
+    },
+    {
+      "type": "text",
+      "id": "hp_featuredslider_slide2_btn-url",
+      "label": "Slide 2 Button URL"
+    },
+    {
+      "type": "text",
+      "id": "hp_featuredslider_slide2_btn-text",
+      "label": "Slide 2 Button Text"
+    },
+    {
+      "type": "header",
+      "content": "Featured Slide 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "hp_featuredslider_slide3_enabled",
+      "label": "Slide 3 Enabled"
+    },
+    {
+      "type": "image",
+      "id": "hp_featuredslider_slide3_img.jpg",
+      "label": "Slide 3 Image"
+    },
+    {
+      "type": "text",
+      "id": "hp_featuredslider_slide3_heading",
+      "label": "Slide 3 Heading"
+    },
+    {
+      "type": "text",
+      "id": "hp_featuredslider_slide3_text",
+      "label": "Slide 3 Text"
+    },
+    {
+      "type": "text",
+      "id": "hp_featuredslider_slide3_btn-url",
+      "label": "Slide 3 Button URL"
+    },
+    {
+      "type": "text",
+      "id": "hp_featuredslider_slide3_btn-text",
+      "label": "Slide 3 Button Text"
+    },
+    {
+      "type": "header",
+      "content": "Featured Slide 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "hp_featuredslider_slide4_enabled",
+      "label": "Slide 4 Enabled"
+    },
+    {
+      "type": "image",
+      "id": "hp_featuredslider_slide4_img.jpg",
+      "label": "Slide 4 Image"
+    },
+    {
+      "type": "text",
+      "id": "hp_featuredslider_slide4_heading",
+      "label": "Slide 4 Heading"
+    },
+    {
+      "type": "text",
+      "id": "hp_featuredslider_slide4_text",
+      "label": "Slide 4 Text"
+    },
+    {
+      "type": "text",
+      "id": "hp_featuredslider_slide4_btn-url",
+      "label": "Slide 4 Button URL"
+    },
+    {
+      "type": "text",
+      "id": "hp_featuredslider_slide4_btn-text",
+      "label": "Slide 4 Button Text"
+    }
+  ]
+}
