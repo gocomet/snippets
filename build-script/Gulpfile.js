@@ -4,7 +4,10 @@
  * This Gulpfile uses Node v5.8!
  * Be sure your NVM is switched
  * to the correct node version
+ *
+ * (this file is written in ES6 -- it must be run in scrict mode)
  */
+'use strict';
 
 /**
  * load dependencies
@@ -12,61 +15,71 @@
  * project settings
  * and npm modules
  */
-var pkg				= require('./package.json');
-var gulp			= require('gulp');
-var gulpif 			= require('gulp-if');
-var srcmaps 		= require('gulp-sourcemaps');
-var sass 			= require('gulp-sass');
-var autoprefixer 	= require('gulp-autoprefixer');
-var cssbeautify 	= require('gulp-cssbeautify');
-var cssminify		= require('gulp-minify-css');
-var bless 			= require('gulp-bless');
-var jshint 			= require('gulp-jshint');
-var concat 			= require('gulp-concat');
-var stripDebug 		= require('gulp-strip-debug');
-var uglify 			= require('gulp-uglify');
-var order 			= require('gulp-order');
-var convert			= require('gulp-utf8-convert');
-var headerfooter 	= require('gulp-headerfooter');
-var imagemin 		= require('gulp-imagemin');
-var pngquant 		= require('imagemin-pngquant');
+let pkg				= require('./package.json');
+let gulp			= require('gulp');
+let gulpif 			= require('gulp-if');
+let srcmaps 		= require('gulp-sourcemaps');
+let sass 			= require('gulp-sass');
+let autoprefixer 	= require('gulp-autoprefixer');
+let cssbeautify 	= require('gulp-cssbeautify');
+let cleancss		= require('gulp-clean-css');
+let bless 			= require('gulp-bless');
+let jshint 			= require('gulp-jshint');
+let concat 			= require('gulp-concat');
+let stripDebug 		= require('gulp-strip-debug');
+let uglify 			= require('gulp-uglify');
+let order 			= require('gulp-order');
+let convert			= require('gulp-utf8-convert');
+let headerfooter 	= require('gulp-headerfooter');
+let imagemin 		= require('gulp-imagemin');
+let pngquant 		= require('imagemin-pngquant');
+let isProduction 	= pkg.environment === 'production';
 
 /**
- * script vars
+ * script constants
  */
-var isProduction = pkg.environment === 'production';
-var pathToSrc = 'src/';
-var pathToTmp = 'tmp/';
-var pathToDest = 'theme/assets';
-var pathToScss = pathToSrc + 'scss/'; 
-var pathToJs = pathToSrc + 'js/';
 
-var srcJs = [
-	pathToJs + 'vendor/*.js',
-	pathToJs + 'lib/*.js',
-	pathToJs + 'directives/*.js',
-	pathToJs + 'app/*.js',
-	pathToJs + 'main.js'
+// output filenames
+const STYLESHEET_NAME 	= 'css_shop';
+const JS_NAME 			= 'js_shop';
+
+// relative paths
+const DIR_GLOB 			= '**/*';
+const SRC_PATH 			= 'src/';
+const TEMP_PATH 		= 'tmp/';
+const DEST_PATH 		= 'theme/assets';
+const SCSS_PATH 		= SRC_PATH + 'scss/'; 
+const JS_PATH 			= SRC_PATH + 'js/';
+
+// ordered js globs
+const SRC_JS = [
+	JS_PATH + 'polyfills/*.js',
+	JS_PATH + 'vendor/*.js',
+	JS_PATH + 'lib/*.js',
+	JS_PATH + 'directives/*.js',
+	JS_PATH + 'app/*.js',
+	JS_PATH + 'main.js'
+];
+const THEME_JS = [
+	JS_PATH + 'vendor/theme/*.js',
+	JS_PATH + 'vendor/theme/*.js.liquid'
 ];
 
-var themeJs = [
-	pathToJs + 'vendor/theme/*.js',
-	pathToJs + 'vendor/theme/*.js.liquid'
+// ordered scss globs
+const THEME_SCSS = [
+	SCSS_PATH + 'vendor/theme/*.css',
+	SCSS_PATH + 'vendor/theme/*.css.liquid',
+	SCSS_PATH + 'vendor/theme/*.scss',
+	SCSS_PATH + 'vendor/theme/*.scss.liquid'
 ];
 
-var themeScss = [
-	pathToScss + 'vendor/theme/*.css',
-	pathToScss + 'vendor/theme/*.css.liquid',
-	pathToScss + 'vendor/theme/*.scss',
-	pathToScss + 'vendor/theme/*.scss.liquid'
-];
-
-var themeImgs = [
-	pathToDest + '/*.jpg',
-	pathToDest + '/*.jpeg',
-	pathToDest + '/*.png',
-	pathToDest + '/*.gif',
-	pathToDest + '/*.svg'
+// image globs
+const THEME_IMGS = [
+	DEST_PATH + '/*.jpg',
+	DEST_PATH + '/*.jpeg',
+	DEST_PATH + '/*.png',
+	DEST_PATH + '/*.gif',
+	DEST_PATH + '/*.svg'
 ];
 
 /**
@@ -76,13 +89,15 @@ var themeImgs = [
  *
  * compile sass
  * from src folder
+ *
+ * used by `styles` task
  */
 gulp.task('srcStyles', function() {
 	
-	return gulp.src(pathToScss + pkg.stylesheetName + '.scss')
+	return gulp.src(`${SCSS_PATH}${STYLESHEET_NAME}.scss`)
 		
 		// if we're not in production mode, prepare to output sass sourcemaps
-		.pipe(gulpif(!isProduction, srcmaps .init()))
+		.pipe(gulpif(!isProduction, srcmaps.init()))
 
 		// compile node-sass (faster), regardless of environment
 		.pipe(sass({
@@ -101,7 +116,7 @@ gulp.task('srcStyles', function() {
 	    // if we _are_ in production mode,
 	    // and in case bless won't run,
 	    // compress the css
-	    .pipe(gulpif(isProduction, cssminify()))
+	    .pipe(gulpif(isProduction, cleancss({ compatibility: 'IE8' })))
 
 	    // if we _are_ in production mode, bless our css (for full IE 9 support) and compress it
 	    .pipe(gulpif(isProduction, bless({
@@ -112,7 +127,7 @@ gulp.task('srcStyles', function() {
 	    })))
 
 	    // write the css file to our specified destination
-	    .pipe(gulp.dest('tmp/css'));
+	    .pipe(gulp.dest(`${TEMP_PATH}css`));
 });
 
 /** 
@@ -120,14 +135,16 @@ gulp.task('srcStyles', function() {
  *
  * copy theme stylesheet over to tmp folder
  * to be concatenated into one final .liquid file
+ *
+ * used by `styles` task
  */
 gulp.task('themeStyles', function() {
 
-	return gulp.src(themeScss)
+	return gulp.src(THEME_SCSS)
 
 		.pipe(concat('theme.scss.liquid'))
 
-		.pipe(gulp.dest('tmp/css'));
+		.pipe(gulp.dest(`${TEMP_PATH}css`));
 
 });
 
@@ -141,9 +158,9 @@ gulp.task('themeStyles', function() {
  */
 gulp.task('styles', ['srcStyles', 'themeStyles'], function() {
 	
-	return gulp.src(['tmp/css/theme.scss.liquid', 'tmp/css/' + pkg.stylesheetName + '.css'])
+	return gulp.src([`${TEMP_PATH}css/theme.scss.liquid`, `${TEMP_PATH}css/${STYLESHEET_NAME}.css`])
 
-		.pipe(concat(pkg.stylesheetName + '.scss.liquid'))
+		.pipe(concat(`${STYLESHEET_NAME}.scss.liquid`))
 
 		.pipe(headerfooter.header('@charset "utf-8";\n'))
 
@@ -153,7 +170,7 @@ gulp.task('styles', ['srcStyles', 'themeStyles'], function() {
 			}
 		}))
 
-		.pipe(gulp.dest(pathToDest));
+		.pipe(gulp.dest(DEST_PATH));
 
 });
 
@@ -167,7 +184,7 @@ gulp.task('styles', ['srcStyles', 'themeStyles'], function() {
  */
 gulp.task('themeScripts', function() {
 
-	return gulp.src(themeJs)
+	return gulp.src(THEME_JS)
 
 		// take theme js/liquid files
 		// concatenate into one
@@ -177,7 +194,7 @@ gulp.task('themeScripts', function() {
 
 		// output theme js to temp location to be concatenated
 		// by scripts task
-		.pipe(gulp.dest('tmp/js'));
+		.pipe(gulp.dest(`${TEMP_PATH}js`));
 
 });
 
@@ -190,10 +207,10 @@ gulp.task('themeScripts', function() {
  */
 gulp.task('srcScripts', function() {
 	
-	return gulp.src(srcJs)
+	return gulp.src(SRC_JS)
 		
 		// automatically order our scripts so that they'll compile and run properly
-		.pipe(order(srcJs, {
+		.pipe(order(SRC_JS, {
 			base: './'
 		}))
 
@@ -205,7 +222,7 @@ gulp.task('srcScripts', function() {
 		.pipe(gulpif(!isProduction, srcmaps.init()))
 
 		// concatenate all our js files into one file named js_shop.js
-		.pipe(concat(pkg.javascriptName + '.js'))
+		.pipe(concat(JS_NAME + '.js'))
 
 		// again, if we're not in production mode, output sourcemap
 		.pipe(gulpif(!isProduction, srcmaps.write()))
@@ -232,7 +249,7 @@ gulp.task('srcScripts', function() {
 		}))
 
 		// output our js to our specified destination
-		.pipe(gulp.dest('tmp/js'));
+		.pipe(gulp.dest(`${TEMP_PATH}js`));
 
 });
 
@@ -248,16 +265,16 @@ gulp.task('srcScripts', function() {
  */
 gulp.task('scripts', ['srcScripts', 'themeScripts'], function() {
 
-	return gulp.src(['tmp/js/theme.js.liquid', 'tmp/js/' + pkg.javascriptName + '.js'])
+	return gulp.src([`${TEMP_PATH}js/theme.js.liquid`, `${TEMP_PATH}js/${JS_NAME}.js`])
 
 		// final file name
-		.pipe(concat(pkg.javascriptName + '.js.liquid'))
+		.pipe(concat(`${JS_NAME}.js.liquid`))
 
 		// wrap entire script in IIFE
 		.pipe(headerfooter('(function(){\n', '\n})();'))
 
 		// output our js to our specified destination
-		.pipe(gulp.dest(pathToDest));
+		.pipe(gulp.dest(DEST_PATH));
 
 });
 
@@ -270,7 +287,7 @@ gulp.task('scripts', ['srcScripts', 'themeScripts'], function() {
  */
 gulp.task('images', function() {
 
-	return gulp.src(themeImgs)
+	return gulp.src(THEME_IMGS)
 
 		.pipe(imagemin({
 			
@@ -280,7 +297,7 @@ gulp.task('images', function() {
 		
 		}))
 		
-		.pipe(gulp.dest(pathToDest));
+		.pipe(gulp.dest(DEST_PATH));
 
 });
 
@@ -296,17 +313,17 @@ gulp.task('watch', function() {
 
 	gulp.watch([
 	
-		pathToSrc + '**/*.css',
-		pathToSrc + '**/*.css.liquid',
-		pathToSrc + '**/*.scss',
-		pathToSrc + '**/*.scss.liquid'
+		`${SRC_PATH}${DIR_GLOB}.css`,
+		`${SRC_PATH}${DIR_GLOB}.css.liquid`,
+		`${SRC_PATH}${DIR_GLOB}.scss`,
+		`${SRC_PATH}${DIR_GLOB}.scss.liquid`
 	
 	], ['styles']);
 	
 	gulp.watch([
 	
-		pathToSrc + '**/*.js',
-		pathToSrc + '**/*.js.liquid'
+		`${SRC_PATH}${DIR_GLOB}.js`,
+		`${SRC_PATH}${DIR_GLOB}.js.liquid`
 	
 	], ['scripts']);
 

@@ -1,0 +1,15 @@
+{
+  "curly": true,
+  "eqeqeq": true,
+  "strict": true,
+  "bitwise": true,
+  "forin": true,
+  "undef": true,
+  "latedef": true,
+  "browser": true,
+  "globals": {
+    "jQuery": true,
+    "console": false,
+    "alert": false
+  }
+}
