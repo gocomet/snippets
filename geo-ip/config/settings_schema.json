@@ -18,6 +18,12 @@
         "content": "All Fields Required"
       },
       {
+        "id": "comet_geoip_enabled",
+        "type": "checkbox",
+        "default": false,
+        "label": "Geo IP Enabled"
+      },
+      {
         "id": "comet_geoip_primary_domain",
         "type": "text",
         "label": "Primary Domain",

@@ -16,6 +16,7 @@
 
 {% endcomment %}
 {% assign comet_geoip_secondary_codes = settings.comet_geoip_secondary_codes | split: ',' %}
+{% if settings.comet_geoip_enabled %}
 <script id="comet-geo-ip-redirect">
 ;(function($, NaN, undefined) {
   'use strict';
@@ -148,3 +149,4 @@
   }, fallbackDelay);
 })(jQuery, parseInt({}), void(0));
 </script>
+{% endif %}
