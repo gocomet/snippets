@@ -15,11 +15,19 @@
   Related snippets: geo-ip-redirect-switcher.liquid, geo-ip-redirect-cover.liquid
 
 {% endcomment %}
-{% assign comet_geoip_secondary_codes = settings.comet_geoip_secondary_codes | split: ',' %}
 {% if settings.comet_geoip_enabled %}
+{% assign comet_geoip_secondary_codes = settings.comet_geoip_secondary_codes | split: ',' %}
+{% assign comet_geoip_whitelist = settings.comet_geoip_whitelist | split: ',' %}
 <script id="comet-geo-ip-redirect">
-;(function($, NaN, undefined) {
+(function($, NaN, undefined) {
   'use strict';
+
+  {% comment %}
+    helper methods
+  {% endcomment %}
+  var contains = function(str, substr) {
+    return str.indexOf(substr) !== -1;
+  };
 
   var called = false;
   var primaryDomain = '{{ settings.comet_geoip_primary_domain }}';
@@ -44,6 +52,10 @@
     {% for cc in comet_geoip_secondary_codes %}'{{ cc }}'{% unless forloop.last %},{% endunless %}
     {% endfor %}
   ];
+  var whitelist = [
+    {% for w in comet_geoip_whitelist %}'{{ w }}'{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
 
   {% comment %} Variable sanitization {% endcomment %}
   if (fallbackDelay === NaN) {
@@ -65,15 +77,18 @@
     example: my-eu-store.com/#europe
     will keep you on the EU store
     even if you're not in europe
+    also, don't do a redirect if the current url is whitelisted in the theme settings
 
   {% endcomment %}
   function onSuccess(loc) {
+    var currentPath = location.pathname;
+    var urlIsWhitelisted = false;
     var $cover;
     var $select;
     var inSecondary;
     var atWrongSite;
     var newLoc;
-    
+
     called = true;
 
     $cover = $(coverID);
@@ -92,7 +107,13 @@
       {% endif %}
     }
 
-    if (loc && (atWrongSite && location.hash !== '#' + storeCode{% if settings.comet_geoip_storeswitcher %} && $.cookie(cookieName) !== storeCode{% endif %})) {
+    $(whitelist).each(function(i, whitelistPath) {
+      if (contains(currentPath, whitelistPath)) {
+        urlIsWhitelisted = true;
+      }
+    });
+
+    if (loc && (atWrongSite && !urlIsWhitelisted && location.hash !== '#' + storeCode{% if settings.comet_geoip_storeswitcher %} && $.cookie(cookieName) !== storeCode{% endif %})) {
       {% if settings.comet_geoip_redirecttoroot %}
         window.location.href = '//' + rightDomain;
       {% else %}

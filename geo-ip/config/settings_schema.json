@@ -72,6 +72,12 @@
         "info": "Enter the delay (in ms) before fallback kicks in"
       },
       {
+        "id": "comet_geoip_whitelist",
+        "type": "textarea",
+        "label": "Whitelist URL Paths",
+        "info": "Enter a comma-separated list of url paths to ignore (ex. `/apps/store-locator,/blogs`)"
+      },
+      {
         "id": "comet_geoip_service",
         "type": "text",
         "label": "Geo IP Service URL"

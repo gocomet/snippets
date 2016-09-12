@@ -9,6 +9,10 @@ Comet Geo IP is a way to easily implement a sister store. Just drop the relevant
 
 Will detect user's country using Geo-IP and redirect to the appropriate configured site.
 
+**Whitelist**
+
+You can "whitelist" URL paths on a store -- this will allow users to see certain pages when they would otherwise be redirected. Useful for linking all sister sites to one blog, or one app landing page, etc.
+
 **Store Switcher**
 
 Provides a store switcher to override the Geo IP, allowing the user to select the store they want to shop on.
@@ -47,4 +51,4 @@ The only two settings that _can_ be different are:
 
 ## Finally
 
-We keep track of which clients use our Geo-IP service; when you implement this feature for a client, be sure to let Rodolfo know!
+We keep track of which clients use our Geo-IP service; when you implement this feature for a client, be sure to update our GeoIP doc!
