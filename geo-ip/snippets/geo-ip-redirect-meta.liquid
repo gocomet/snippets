@@ -1,0 +1,4 @@
+{% if settings.comet_geoip_enabled %}
+  <link rel="{% if settings.comet_geoip_isprimary %}canonical{% else %}alternate{% endif %}" href="https://{{ settings.comet_geoip_primary_domain }}" hreflang="en-{{ settings.comet_geoip_primary_name | handle }}" />
+  <link rel="{% if settings.comet_geoip_isprimary %}alternate{% else %}canonical{% endif %}" href="https://{{ settings.comet_geoip_secondary_domain }}" hreflang="en-{{ settings.comet_geoip_secondary_name | handle }}" />
+{% endif %}
