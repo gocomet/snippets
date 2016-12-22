@@ -1,0 +1,11 @@
+{% if settings.demac_geoip_enabled %}
+  <link rel="canonical" href="https://{{ settings.demac_geoip_primary_domain }}" hreflang="{{ settings.demac_geoip_primary_lang }}" />
+  {% for i in (1..2) %}
+    {% assign geoip_alt_base = 'demac_geoip_alternate_' | append: i | append: '_' %}
+    {% assign geoip_alt_domain = geoip_alt_base | append: 'domain' %}
+    {% assign geoip_alt_lang = geoip_alt_base | append: 'lang' %}
+    {% unless settings[geoip_alt_domain] == blank %}
+      <link rel="alternate" href="https://{{ settings[geoip_alt_domain] }}" hreflang="{{ settings[geoip_alt_lang] }}" />
+    {% endunless %}
+  {% endfor %}
+{% endif %}

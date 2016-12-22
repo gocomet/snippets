@@ -1,0 +1,90 @@
+{% comment %}
+
+  Geo IP redirect switcher
+
+  allow user to select which store they want to visit
+
+  dependencies: jQuery, geo-ip-redirect-script.liquid
+
+{% endcomment %}
+{% if settings.demac_geoip_enabled and settings.demac_geoip_storeswitcher %}
+  <div id="demac-geoip-redirect-switcher--{{ position }}" class="{{ position }}">
+    <div class="store__current--wrapper">
+      <a
+        href="javascript:void(0);"
+        class="a--reset store__current"
+        data-target-toggle="#store__country-list--wrapper">
+        <img
+          src=""
+          alt=""
+          class="js-current-store-flag store__flag">
+        <span class="icon icon--sort_down"></span>
+      </a>
+    </div>
+    <div id="store__country-list--wrapper" class="store__country-list--wrapper">
+      <ul class="ul--reset store__country-list">
+        <li>
+          <a
+            href="javascript:void(0);"
+            data-geoip-hashcode="{{ settings.demac_geoip_primary_hashcode }}"
+            class="a--reset">
+            <img
+              src="{{ settings.demac_geoip_primary_hashcode | append: '-flag.jpg' | asset_url }}"
+              alt="" class="store__flag">
+          </a>
+        </li>
+        {% for i in (1..2) %}
+          {% assign geoip_alt_base = 'demac_geoip_alternate_' | append: i | append: '_' %}
+          {% assign geoip_alt_hashcode = geoip_alt_base | append: 'hashcode' %}
+          {% unless settings[geoip_alt_hashcode] == blank %}
+            <li>
+              <a
+                href="javascript:void(0);"
+                data-geoip-hashcode="{{ settings[geoip_alt_hashcode] }}"
+                class="a--reset">
+                <img
+                  src="{{ settings[geoip_alt_hashcode] | append: '-flag.jpg' | asset_url }}"
+                  alt="" class="store__flag">
+              </a>
+            </li>
+          {% endunless %}
+        {% endfor %}
+      </ul>
+    </div>
+    <script id="demac-geoip-redirect-switcher-script">
+      (function($) {
+        'use strict';
+        var HASH_ATT = 'data-geoip-hashcode';
+        var $scope = $('#demac-geoip-redirect-switcher--{{ position }}');
+        var img = $scope.find('.js-current-store-flag')[0];
+        var called = false;
+        
+        function getImgSrc(hash) {
+          return $scope.find('[' + HASH_ATT + '="' + hash + '"]').find('img')[0].src;
+        }
+        
+        $scope.find('[' + HASH_ATT + ']').on('click', function() {
+          var hash = this.getAttribute(HASH_ATT);
+          img.src = getImgSrc(hash);
+          themeleon.geoip.switchTo(hash);
+        });
+        
+        $(document).one('demac-geoip-currentstore', function(e, currentStore) {
+          if (currentStore) {
+            called = true;
+            img.src = getImgSrc(currentStore.hash);
+          }
+        });
+
+        setTimeout(function() {
+          if (!called) {
+            called = true;
+            if (themeleon.geoip.currentStore) {
+              img.src = getImgSrc(themeleon.geoip.currentStore.hash);
+            }
+          }
+        }, 5000);
+      })(jQuery);
+    </script>
+  </div>
+{% endif %}

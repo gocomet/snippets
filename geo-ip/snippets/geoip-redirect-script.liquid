@@ -1,0 +1,372 @@
+{% comment %}
+
+  geoip-redirect-script.liquid
+
+  Related snippets:
+  - geoip-redirect-switcher.liquid
+  - geoip-redirect-cover.liquid
+  - geoip-redirect-meta.liquid
+
+  docs here https://github.com/gocomet/snippets/tree/master/geo-ip
+
+  @brendan
+
+{% endcomment %}
+{% if settings.demac_geoip_enabled %}
+<script id="demac-geoip-redirect-script">
+(function($, themeleon, undefined) {
+  'use strict';
+
+  {% comment %}
+  
+    // helper methods
+  
+  {% endcomment %}
+  var contains = function(str, substr) {
+    return str.indexOf(substr) !== -1;
+  };
+
+  {% comment %}
+
+    /**
+     * geoip
+     * 
+     * redirect user to the appropriate site based on geoip
+     * allow user to override using store switcher
+     * allow whitelist to override store switcher
+     * allow user to override using URL hashes for testing purposes
+     * do not perform redirect in Shopify admin panel
+     */
+
+  {% endcomment %}
+  themeleon.geoip = {
+    // constants
+    COVER_ID: '#demac-geoip-redirect-cover',
+    GEOIP_URL: 'https://geoip.demacmedia.ca/json/',
+    COOKIE_NAME: 'demac-geoip-',
+    CURRENTSTORE_EVENT: 'demac-geoip-currentstore',
+    FALLBACK_DELAY: 5000,
+
+    {% comment %}
+
+      // get data from Liquid and store as JS object
+
+    {% endcomment %}
+    {% assign geoip_whitelist = settings.demac_geoip_primary_whitelist | split: ',' %}
+    stores: {
+      primary: {
+        domain: '{{ settings.demac_geoip_primary_domain }}',
+        hash: '{{ settings.demac_geoip_primary_hashcode }}',
+        lang: '{{ settings.demac_geoip_primary_lang }}',
+        whitelist: [
+          {% for path in geoip_whitelist %}
+            '{{ path }}'{% unless forloop.last %},{% endunless %}
+          {% endfor %} 
+        ]
+      },
+      alternates: [
+        {% for i in (1..2) %}
+          {% assign geoip_alt_base = 'demac_geoip_alternate_' | append: i | append: '_' %}
+          {% assign geoip_alt_domain = geoip_alt_base | append: 'domain' %}
+          {% assign geoip_alt_hashcode = geoip_alt_base | append: 'hashcode' %}
+          {% assign geoip_alt_lang = geoip_alt_base | append: 'lang' %}
+          {% assign geoip_alt_ccs = geoip_alt_base | append: 'ccs' %}
+          {% assign geoip_alt_ccs = settings[geoip_alt_ccs] | split: ',' %}
+          {% unless settings[geoip_alt_domain] == blank %}
+            {
+              domain: '{{ settings[geoip_alt_domain] }}',
+              hash: '{{ settings[geoip_alt_hashcode] }}',
+              lang: '{{ settings[geoip_alt_lang] }}',
+              ccs: [
+                {% for cc in geoip_alt_ccs %}
+                  '{{ cc }}'{% unless forloop.last %},{% endunless %}
+                {% endfor %} 
+              ]
+            }{% unless forloop.last %},{% endunless %}
+          {% endunless %}
+        {% endfor %}
+      ]
+    },
+
+    /**
+     * init
+     *
+     * call geoip
+     * if geoip call hangs,
+     * call fallback
+     */
+    init: function() {
+      var _this = this;
+
+      // if this page was loaded in an iframe,
+      // do not redirect
+      // uncover site and exit
+      // (the Shopify admin loads site in an iframe)
+      if (window.top !== window) {
+        this.uncover();
+        return false;
+      }
+
+      this.organizeStores();
+      this.$doc = $(document);
+
+      this.callGeoip();
+
+      // if the geoip has taken too long
+      // just show the site
+      // better to be at wrong store than no store
+      setTimeout(function() {
+        if (!_this.called) {
+          _this.uncover(); 
+        }
+      }, this.FALLBACK_DELAY);
+    },
+
+    /**
+     * organizeStores
+     *
+     * add more access points for data to make easier to work with
+     */
+    organizeStores: function() {
+      var _this = this;
+
+      this.stores.allStores = [
+        this.stores.primary
+      ].concat(this.stores.alternates);
+
+      $(this.stores.allStores).each(function(i, store) {
+        _this.stores[store.hash] = store;
+      });
+    },
+
+    /**
+     * callGeoip
+     * call the geoip server
+     */
+    callGeoip: function() {
+      var _this = this;
+
+      $.ajax({ 
+        url: this.GEOIP_URL, 
+        type: 'GET', 
+        dataType: 'jsonp',
+        success: function(data) {
+          _this.determineRedirect(data);
+        }
+      });
+    },
+
+    /**
+     * getCurrentStore
+     * 
+     * determine which store we're currently on
+     */
+    getCurrentStore: function(hostname) {
+      var currentStore;
+      
+      $(this.stores.allStores).each(function(i, store) {
+        if (store.domain === hostname) {
+          currentStore = store;
+          return false;
+        }
+      });
+
+      return currentStore;
+    },
+
+    /**
+     * getCountryStore
+     *
+     * determine which store we should redirect to
+     * based on user location
+     */
+    getCountryStore: function(cc) {
+      var target;
+
+      $(this.stores.alternates).each(function(i, store) {
+        if (contains(store.ccs, cc)) {
+          target = store;
+          return false;
+        }
+      });
+
+      if (!target) {
+        target = this.stores.primary;
+      }
+
+      return target;
+    },
+
+    /**
+     * getUserStore
+     *
+     * check cookie to see if user has chosen another store
+     * if so, let's redirect there
+     */
+    getUserStore: function(hash) {
+      var userStore = false;
+      var cookie = $.cookie(this.COOKIE_NAME + hash);
+
+      if (this.stores[cookie]) {
+        userStore = this.stores[cookie]; 
+      }
+
+      return userStore;
+    },
+
+    /**
+     * setUserStore
+     *
+     * when user selects a store,
+     * set a cookie to redirect there in the future
+     */
+    setUserStore: function(currentHash, targetHash) {
+      if (targetHash && this.stores[targetHash]) {
+        $.cookie(this.COOKIE_NAME + currentHash, targetHash, {
+          path: '/',
+          expires: 30
+        });
+      }
+    },
+
+    /**
+     * clearUserStore
+     *
+     * remove userStore cookie
+     * useful for testing
+     */
+    clearUserStore: function(hash) {
+      $.removeCookie(this.COOKIE_NAME + hash);
+    },
+
+    /**
+     * isPageWhitelisted
+     *
+     * create regex for each item in whitelist
+     * and compare against current page path
+     */
+    isPageWhitelisted: function(pathname) {
+      var isWhitelisted = false;
+
+      $(this.stores.primary.whitelist).each(function(i, path) {
+        var regex = new RegExp(path, 'i');
+        if (regex.test(pathname)) {
+          isWhitelisted = true;
+          return false;
+        }
+      });
+
+      return isWhitelisted;
+    },
+
+    /**
+     * determineRedirect
+     * 
+     * save user-defined store (from URL hash)
+     * determine if we need to redirect, and to which store
+     */
+    determineRedirect: function(loc) {
+      var hostname = window.location.hostname;
+      var pathname = window.location.pathname;
+      var urlHash = window.location.hash;
+      var countryStore = this.getCountryStore(loc.country_code);
+      var pageIsWhitelisted = this.isPageWhitelisted(pathname);
+      var userStore;
+
+      this.currentStore = this.getCurrentStore(hostname);
+      this.publish(this.CURRENTSTORE_EVENT, this.currentStore);
+      this.called = true;
+
+      // check the url for a hash
+      // if it contains a hash that matches one of our stores
+      // we can assume we should set this as the user's store
+      // then get the user-defined store
+      if (urlHash) {
+        urlHash = urlHash.substring(1);
+      }
+      this.setUserStore(this.currentStore.hash, urlHash);
+      userStore = this.getUserStore(this.currentStore.hash);
+
+      // case: page is whitelisted
+      // redirect to the primary store (if we're not on it)
+      // do this first because the whitelist takes priority over everything,
+      // including user preferences
+      if (pageIsWhitelisted && this.currentStore !== this.stores.primary) {
+        this.redirectTo(this.stores.primary);
+      } else if (pageIsWhitelisted && this.currentStore === this.stores.primary) {
+        this.uncover();
+
+      // case: the user has a store preference and they're not at it
+      // redirect them there
+      } else if (userStore && userStore !== this.currentStore) {
+        this.redirectTo(userStore, userStore.hash);
+      } else if (userStore === this.currentStore) {
+        this.uncover();
+
+      // case: the user has no store preference,
+      // but they're at the wrong store
+      // redirect them there and make it their preference
+      } else if (this.currentStore !== countryStore) {
+        this.switchTo(countryStore.hash);
+
+      // case: we're at the right store
+      // uncover the site
+      } else {
+        this.uncover();
+      }
+    },
+
+    /**
+     * redirectTo
+     *
+     * redirect to a store domain
+     * using the current protocol
+     * and the current path
+     * if there's a hash, append it
+     */
+    redirectTo: function(store, hash) {
+      var loc = window.location;
+
+      loc.href = loc.protocol + '//' + store.domain + loc.pathname + (hash? '#' + hash: '');
+    },
+
+    /**
+     * switchTo
+     *
+     * public method to be used by store switcher UI
+     * set user preference for store and redirect to store
+     */
+    switchTo: function(hash) {
+      this.setUserStore(this.currentStore.hash, hash);
+      this.redirectTo(this.getUserStore(this.currentStore.hash), hash);
+    },
+
+    publish: function(eventName, param) {
+      this.$doc.trigger(eventName, [param]);
+    },
+
+    /**
+     * uncover
+     * 
+     * geoip is done;
+     * remove cover that is hiding site
+     * (if cover element doesn't exist yet, wait til it does, then remove)
+     */
+    uncover: function() {
+      var _this = this;
+
+      this.$cover = $(this.COVER_ID);
+      if (this.$cover.length) {
+        this.$cover.remove();
+      } else {
+        $(function() {
+          $(_this.COVER_ID).remove();
+        });
+      }
+    }
+  };
+
+  themeleon.geoip.init();
+})(jQuery, window.themeleon = window.themeleon || {});
+</script>
+{% endif %}

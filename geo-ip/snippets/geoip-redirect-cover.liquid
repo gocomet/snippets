@@ -1,0 +1,10 @@
+{% comment %}
+
+  this div covers the site until the redirect script is complete
+  when complete, it will remove this div
+
+{% endcomment %}
+{% if settings.demac_geoip_enabled %}
+	<div id="demac-geoip-redirect-cover" style="background: #fff; height: 100%; left: 0; position: fixed; top: 0; width: 100%; z-index: 999999;">
+	</div>
+{% endif %}

@@ -1,5 +1,5 @@
   {
-    "name": "Comet Geo IP",
+    "name": "Demac Geo IP",
     "settings": [
       {
         "type": "header",
@@ -11,82 +11,127 @@
       },
       {
         "type": "header",
-        "content": "Note"
+        "content": "General"
+      },
+      {
+        "id": "demac_geoip_enabled",
+        "type": "checkbox",
+        "default": false,
+        "label": "Enable Geo IP"
+      },
+      {
+        "type": "header",
+        "content": "Primary Store"
       },
       {
         "type": "paragraph",
-        "content": "All Fields Required"
+        "content": "The primary store is the one that users anywhere will see by default."
       },
       {
-        "id": "comet_geoip_enabled",
-        "type": "checkbox",
-        "default": false,
-        "label": "Geo IP Enabled"
-      },
-      {
-        "id": "comet_geoip_primary_domain",
+        "id": "demac_geoip_primary_domain",
         "type": "text",
         "label": "Primary Domain",
-        "info": "Enter the domain of the primary store -- the one that all users should see by default. (Do NOT include www or http:\/\/ or https:\/\/)"
+        "info": "Enter the domain of the primary store (Do NOT include www or http:\/\/ or https:\/\/)"
       },
       {
-        "id": "comet_geoip_secondary_domain",
+        "id": "demac_geoip_primary_hashcode",
         "type": "text",
-        "label": "Secondary Domain",
-        "info": "Enter the domain of the secondary store -- the one that only users from certain countries should see. (Do NOT include www or http:\/\/ or https:\/\/)"
+        "label": "Primary Hash Code",
+        "info": "The hash code can be entered at the end of a URL to override the Geo IP redirect (ex. mystore.com/#us)"
       },
       {
-        "id": "comet_geoip_primary_name",
+        "id": "demac_geoip_primary_lang",
         "type": "text",
-        "label": "Primary Store Name",
-        "info": "Enter the name you wish to use for the Primary store (this will also appear on the Store Switcher)"
+        "label": "Primary Language Code",
+        "info": "Enter the language code for this store, to be used by the canonical/alternate meta tags (ex. en-us)"
       },
       {
-        "id": "comet_geoip_secondary_name",
-        "type": "text",
-        "label": "Secondary Store Name",
-        "info": "Enter the name you wish to use for the Secondary store (this will also appear on the Store Switcher)"
-      },
-      {
-        "id": "comet_geoip_isprimary",
-        "type": "checkbox",
-        "label": "This Store is the Primary Store",
-        "info": "Check this box if this store is the primary store"
-      },
-      {
-        "id": "comet_geoip_secondary_codes",
-        "type": "textarea",
-        "label": "Secondary store Country Codes",
-        "info": "Enter a comma-separated list of the country codes that should redirect to the secondary store (example: FR,UK,BG)"
-      },
-      {
-        "id": "comet_geoip_redirecttoroot",
-        "type": "checkbox",
-        "label": "Redirect to Root",
-        "info": "Check this box if you want to redirect to the site root, instead of the corresponding page a user might be on"
-      },
-      {
-        "id": "comet_geoip_fallbackdelay",
-        "type": "text",
-        "label": "Fallback Delay",
-        "info": "Enter the delay (in ms) before fallback kicks in"
-      },
-      {
-        "id": "comet_geoip_whitelist",
+        "id": "demac_geoip_primary_whitelist",
         "type": "textarea",
         "label": "Whitelist URL Paths",
-        "info": "Enter a comma-separated list of url paths to ignore (ex. `/apps/store-locator,/blogs`)"
+        "info": "Enter a comma-separated list of url paths that should always use the primary store (ex. \/apps\/store-locator,\/blogs)"
       },
       {
-        "id": "comet_geoip_service",
+        "type": "header",
+        "content": "Alternate Stores"
+      },
+      {
+        "type": "paragraph",
+        "content": "Alternate stores will only be visited by users from specific geographical locations."
+      },
+      {
+        "type": "header",
+        "content": "Alternate Store"
+      },
+      {
+        "type": "paragraph",
+        "content": "Enter settings for an alternate store"
+      },
+      {
+        "id": "demac_geoip_alternate_1_domain",
         "type": "text",
-        "label": "Geo IP Service URL"
+        "label": "Store Domain",
+        "info": "Enter the domain of store (Do NOT include www or http:\/\/ or https:\/\/)"
       },
       {
-        "id": "comet_geoip_storeswitcher",
+        "id": "demac_geoip_alternate_1_hashcode",
+        "type": "text",
+        "label": "Store Hash Code",
+        "info": "The hash code can be entered at the end of a URL to override the Geo IP redirect (ex. mystore.ca/#ca)"
+      },
+      {
+        "id": "demac_geoip_alternate_1_lang",
+        "type": "text",
+        "label": "Store Language Code",
+        "info": "Enter the language code for this store, to be used by the canonical/alternate meta tags (ex. en-ca)"
+      },
+      {
+        "id": "demac_geoip_alternate_1_ccs",
+        "type": "textarea",
+        "label": "Store Country Codes",
+        "info": "Enter a comma-separated list of the country codes that should redirect to the store (example: CA)"
+      },
+      {
+        "type": "header",
+        "content": "Alternate Store"
+      },
+      {
+        "type": "paragraph",
+        "content": "Enter settings for an alternate store"
+      },
+      {
+        "id": "demac_geoip_alternate_2_domain",
+        "type": "text",
+        "label": "Store Domain",
+        "info": "Enter the domain of store (Do NOT include www or http:\/\/ or https:\/\/)"
+      },
+      {
+        "id": "demac_geoip_alternate_2_hashcode",
+        "type": "text",
+        "label": "Store Hash Code",
+        "info": "The hash code can be entered at the end of a URL to override the Geo IP redirect (ex. mystore.eu/#eu)"
+      },
+      {
+        "id": "demac_geoip_alternate_3_lang",
+        "type": "text",
+        "label": "Store Language Code",
+        "info": "Enter the language code for this store, to be used by the canonical/alternate meta tags (ex. fr-fr)"
+      },
+      {
+        "id": "demac_geoip_alternate_2_ccs",
+        "type": "textarea",
+        "label": "Store Country Codes",
+        "info": "Enter a comma-separated list of the country codes that should redirect to the store (example: FR,UK,BG)"
+      },
+      {
+        "type": "header",
+        "content": "Store Switcher"
+      },
+      {
+        "id": "demac_geoip_storeswitcher",
         "type": "checkbox",
         "label": "Enable Store Switcher",
-        "info": "Check if you want to enable a store switcher on your store. Be sure you enable or disable on both stores equally",
+        "info": "Check if you want to enable a store switcher on your store. Be sure you enable or disable on all stores equally",
         "default": false
       }
     ]
