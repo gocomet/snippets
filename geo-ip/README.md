@@ -1,9 +1,11 @@
 
 # Geo IP
 
-Comet Geo IP is a way to easily implement a sister store. Just drop the relevant files into both stores, configure the settings, and away you go.
+Demac Geo IP is a way to easily implement a sister store or (stores). Just drop the relevant files into both stores, configure the settings, and away you go.
 
 ## Features
+
+Supports up to 3 sites by default. You can easily add more -- by editing the snippets and making the for loops loop through more items.
 
 **Geo IP Redirect**
 
@@ -11,7 +13,9 @@ Will detect user's country using Geo-IP and redirect to the appropriate configur
 
 **Whitelist**
 
-You can "whitelist" URL paths on a store -- this will allow users to see certain pages when they would otherwise be redirected. Useful for linking all sister sites to one blog, or one app landing page, etc.
+You can "whitelist" URL paths on the primary site -- this will allow users to see certain pages when they would otherwise be redirected. Useful for linking all sister sites to one blog, or one app landing page, etc.
+
+The whitelist field accepts a comma-separated list of Regular Expressions -- if you don't know how to use those, talk to someone who does.
 
 **Store Switcher**
 
@@ -19,7 +23,7 @@ Provides a store switcher to override the Geo IP, allowing the user to select th
 
 ## Dependencies
 
-Requires jQuery. Also requires jquery.cookie.js if you want to use the Store Switcher feature.
+Requires jQuery and jquery.cookie.js
 
 ## Installation
 
@@ -29,29 +33,23 @@ Requires jQuery. Also requires jquery.cookie.js if you want to use the Store Swi
 2. configure settings as needed
 3. ensure jquery, and jquery.cookie.js if needed, are being loade on the page
 4. place all the files under `snippets/` into your project's `snippets/` directory
-5. include `geo-ip-redirect-meta.liquid` in `<head>` tag, near the top
-6. include `geo-ip-redirect.liquid` in `<head>` tag, after jquery
-7. include `geo-ip-redirect-cover.liquid` in `<body>` tag, directly after it opens
-8. if you're using the store switcher, include `geo-ip-redirect-switcher.liquid` wherever you want it on the page
+5. include `geoip-redirect-meta.liquid` in `<head>` tag, near the top
+6. include `geoip-redirect-script.liquid` in `<head>` tag, after jquery
+7. include `geoip-redirect-cover.liquid` in `<body>` tag, directly after it opens
+8. if you're using the store switcher, include `geoip-redirect-switcher.liquid` wherever you want it on the page
 
 ## Configuration
 
-Carefully follow the instructions in the theme settings for the configuration. The general rule is: the sister sites will need matching information.
+Carefully follow the instructions in the theme settings for the configuration. All sites need the same configuration for the GeoIP to work properly.
 
 **For example**
 
 - You have two sites: Canada and US
 - The Primary Domain field is `my-store.com`
-- The Secondary Domain field is `my-store.ca`
-- The Primary Name field is `US`
-- The Secondary Name field is `CA`
+- The Altenate Domain field is `my-store.ca`
+- The Primary Hash field is `US`
+- The Alternate Hash field is `CA`
 - These settings should be the same on both stores
-
-The only three settings that _can_ be different are:
-
-- Whitelist URLs
-- This Store Is the Primary Store
-- Redirect To Root
 
 ## Finally
 
