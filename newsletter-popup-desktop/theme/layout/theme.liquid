@@ -1,0 +1,14 @@
+{% unless template == 'password' %}
+  {% include 'newsletter-popup-desktop' %}
+{% endunless %}
+
+<script>
+  themeleon.init({
+    desktopNewsletter: {
+      enabled: {{ settings.desktop_newsletter_popup_enabled }},
+      pageviews: {{ settings.desktop_newsletter_popup_pageviews }},
+      days: {{ settings.desktop_newsletter_popup_days }},
+      seconds: {{ settings.desktop_newsletter_popup_seconds }}
+    }
+  });
+</script>

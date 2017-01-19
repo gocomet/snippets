@@ -1,0 +1,159 @@
+{
+  "name": "Desktop Newsletter Popup",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "desktop_newsletter_popup_enabled",
+      "label": "Enable Desktop Newsletter Popup?",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "desktop_newsletter_popup_seconds",
+      "label": "Number of Seconds until Popup is Displayed",
+      "options": [
+        {
+          "label": "0",
+          "value": "0"
+        },
+        {
+          "label": "1",
+          "value": "1000"
+        },
+        {
+          "label": "2",
+          "value": "2000"
+        },
+        {
+          "label": "3",
+          "value": "3000"
+        },
+        {
+          "label": "4",
+          "value": "4000"
+        },
+        {
+          "label": "5",
+          "value": "5000"
+        },
+        {
+          "label": "6",
+          "value": "6000"
+        }
+      ],
+      "default": "3000",
+      "info": "Seconds"
+    },
+    {
+      "type": "select",
+      "id": "desktop_newsletter_popup_pageviews",
+      "label": "Initial Page View When Popup is Displayed",
+      "default": "1",
+      "info": "Page View",
+      "options": [
+        {
+          "label": "First",
+          "value": "1"
+        },
+        {
+          "label": "Second",
+          "value": "2"
+        },
+        {
+          "label": "Third",
+          "value": "3"
+        },
+        {
+          "label": "Fourth",
+          "value": "4"
+        },
+        {
+          "label": "Fifth",
+          "value": "5"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "desktop_newsletter_popup_days",
+      "label": "Number of Days to Display Popup After Last Popup",
+      "default": "3",
+      "info": "Days",
+      "options": [
+        {
+          "label": "0 (Use for previewing or testing)",
+          "value": "0"
+        },
+        {
+          "label": "1",
+          "value": "1"
+        },
+        {
+          "label": "2",
+          "value": "2"
+        },
+        {
+          "label": "3",
+          "value": "3"
+        },
+        {
+          "label": "4",
+          "value": "4"
+        },
+        {
+          "label": "5",
+          "value": "5"
+        },
+        {
+          "label": "6",
+          "value": "6"
+        },
+        {
+          "label": "7",
+          "value": "7"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Popup Settings"
+    },
+    {
+      "type": "text",
+      "id": "desktop_newsletter_popup_title",
+      "label": "Popup Title"
+    },
+    {
+      "type": "textarea",
+      "id": "desktop_newsletter_popup_text",
+      "label": "Popup Text"
+    },
+    {
+      "type": "text",
+      "id": "desktop_newsletter_popup_success_message",
+      "label": "Sign Up Success Message",
+      "info": "Enter the text you would like to display when a visitor successfully signs up with this form"
+    },
+    {
+      "type": "header",
+      "content": "Klaviyo Settings"
+    },
+    {
+      "type": "text",
+      "id": "desktop_newsletter_popup_klaviyo_list_id",
+      "label": "Klaviyo List ID",
+      "info": "Learn how to find the Klaviyo List ID [here](https:\/\/docs.klaviyo.com\/customer\/en\/portal\/articles\/2432726-find-your-list-id)"
+    },
+    {
+      "type": "text",
+      "id": "desktop_newsletter_popup_klaviyo_form_source",
+      "label": "Klaviyo Form Sign Up Source",
+      "info": "Please enter the sign up source for this form without the $. Learn more about the source property [here](https:\/\/docs.klaviyo.com\/customer\/en\/portal\/articles\/2426675-customize-the-sign-up-source-property-for-a-form)",
+      "default": "desktop_popup"
+    }
+  ]
+}

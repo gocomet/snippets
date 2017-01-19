@@ -1,0 +1,27 @@
+{% comment %}
+
+	snippets/newsletter-popup-desktop.liquid
+
+	initialized in src/js/directives/desktopNewsletter.init.js
+	included in layout/theme.liquid
+
+{% endcomment %}
+
+{% if settings.desktop_newsletter_popup_enabled %}
+	{% assign NEWSLETTER_POPUP_TITLE = settings.desktop_newsletter_popup_title %}
+	{% assign NEWSLETTER_POPUP_TEXT = settings.desktop_newsletter_popup_text %}
+
+	<div id="newsletter-popup-desktop" class="newsletter-popup-desktop mfp-with-anim mfp-hide hide--mobile text--center">
+		<div class="newsletter-popup-desktop__header">
+			<h2>{{ NEWSLETTER_POPUP_TITLE }}</h2>
+			<p>{{ NEWSLETTER_POPUP_TEXT }}</p>
+		</div>
+		<div class="newsletter-popup-desktop__form">
+      {% comment %}
+				
+				Include klayiyo-form here
+
+      {% endcomment %}
+		</div>
+	</div>
+{% endif %}
