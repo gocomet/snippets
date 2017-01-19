@@ -1,4 +1,4 @@
-# Mobile Newsletter Popup
+# Desktop Newsletter Popup
 
 A desktop newsletter popup.
 

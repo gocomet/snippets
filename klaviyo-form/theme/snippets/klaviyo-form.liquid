@@ -1,0 +1,83 @@
+{% comment %}
+
+  snippets/klaviyo-form.liquid
+
+  A standard Klaviyo form embed, meant to be included wherever it needs to be
+
+  snippet arguments:
+  - source {string:required} the klaviyo form source for tracking where the sign up came from
+  - list_id: {string:required} the klaviyo list id to sync this form with
+  - success_message {string:required} the success message to show on successful form submit
+  - location {string:optional} used for targeted styling, recommended if you are including this snippet in multiple places
+
+  Ideally, the first three arguments can come from theme settings so the client can update
+
+  usage:
+  {% include "klaviyo-form", 
+    source: "footer", 
+    list_id: "f4RvxS", 
+    success_message: "Thanks for signing up!",
+    location: "footer" %}
+
+  @jess
+
+{% endcomment %}
+
+<form 
+  id="email_signup_{{ source }}" 
+  class="klaviyo_standard_embed_{{ list_id }} klaviyo__form klaviyo__form--{{ location }}" 
+  action="//manage.kmail-lists.com/subscriptions/subscribe" 
+  data-ajax-submit="//manage.kmail-lists.com/ajax/subscriptions/subscribe" 
+  method="GET" 
+  target="_blank" 
+  novalidate="novalidate">
+  <div class="klaviyo_field_group newsletter-form__inputs">
+    <input type="hidden" name="g" value="{{ list_id }}">
+    <div class="field">
+      <label for="email" class="invisible">
+        {{ 'general.newsletter_form.newsletter_label' | t }}
+      </label>
+      <div class="klaviyo__input-wrapper">
+        <input type="email" value="" class="klaviyo__email-input" name="email" id="k_id_email" placeholder="{{ 'general.newsletter_form.newsletter_label' | t }}" />
+      </div>
+    </div>
+
+    <div class="klaviyo_form_actions">
+      <button type="submit" class="klaviyo_submit_button button {% if location == 'homepage' %}button--transparent{% endif %}">
+        {{ 'general.newsletter_form.submit' | t }}
+      </button>
+    </div>
+  </div>
+
+  <div class="klaviyo_messages">
+    <div class="success_message" style="display:none;"></div>
+    <div class="error_message" style="display:none;"></div>
+  </div>
+</form>
+
+<script type="text/javascript" src="//www.klaviyo.com/media/js/public/klaviyo_subscribe.js"></script>
+<script type="text/javascript">
+  jQuery(function($) {
+    var $doc = $(document);
+
+    var $newsletterForm = $('#email_signup_{{ source }}');
+
+    KlaviyoSubscribe.attachToForms($newsletterForm, {
+      hide_form_on_success: true,
+      success_message: "{{ success_message }}",
+      extra_properties: {
+        $source: "{{ source }}"
+      },
+      success: function() {
+        {% comment %}
+        // trigger success event to hook into from anywhere
+        // pass in form element and success message
+        // currently used in src/js/directives/mobilenewsletter.init.js
+        // send form element and success message
+        {% endcomment %}
+
+        $doc.trigger("{{ location }}--success", [$newsletterForm, "{{ success_message }}"]);
+      }
+    });
+  });
+</script>
