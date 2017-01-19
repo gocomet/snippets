@@ -1,0 +1,62 @@
+{% comment %}
+
+	snippets/newsletter-popup-mobile.liquid
+
+	initialized in src/js/directives/mobilenewsletter.init.js
+	included in layout/theme.liquid
+
+{% endcomment %}
+
+{% if settings.mobile_newsletter_popup_enabled %}
+	
+	{% assign CTA_TITLE = settings.mobile_newsletter_cta_title %}
+	{% assign CTA_TEXT = settings.mobile_newsletter_cta_text %}
+	{% assign SUCCESS_MSG = settings.mobile_newsletter_popup_success_message %}
+	{% assign POPUP_TITLE = settings.mobile_newsletter_popup_title %}
+	{% assign POPUP_TEXT = settings.mobile_newsletter_popup_text %}
+	{% assign KLAVIYO_LIST_ID = settings.mobile_newsletter_popup_klaviyo_list_id %}
+	{% assign KLAVIYO_SOURCE = settings.mobile_newsletter_popup_klaviyo_form_source %}
+
+	<div class="newsletter-mobile--cta hide--small text--center">
+	  <a class="js-newsletter-close--cta close left ib a--reset" href="javascript:void(0)">x</a>
+
+	  <p class="p-1">
+	    <span class="newsletter-trigger-content ib">{{ CTA_TITLE }}</span>
+	    <a href="javascript:void(0)" class="newsletter-trigger">{{ CTA_TEXT }}</a>
+	  </p>
+
+	  <p class="p-2 hide-p">
+	  	{{ SUCCESS_MSG }}
+	  </p>
+	</div>
+
+	<div id="newsletter-mobile--container" class="hide--small">
+	  <div class="newsletter-inner text--center">
+      <a class="js-newsletter-close--popup close left a--reset" href="javascript:void(0)">x</a>
+
+      <div class="newsletter-form">
+      	<div class="newsletter-form__header">
+      		<div class="newsletter-form__title">
+      		  <strong><span>{{ POPUP_TITLE }}</span></strong>
+      		</div>
+
+      		<p>{{ POPUP_TEXT }}</p>
+      	</div>
+
+        {% comment %}
+
+					Klaviyo form included here
+					If you are using another form for sign up, swap it out here
+
+        {% endcomment %}
+
+				{% include 'klaviyo-form', 
+					source: KLAVIYO_SOURCE, 
+					list_id: KLAVIYO_LIST_ID, 
+					success_message: SUCCESS_MSG,
+					location: "newsletter-popup-mobile" %}
+
+      </div>
+	  </div>
+	</div>
+{% endif %}

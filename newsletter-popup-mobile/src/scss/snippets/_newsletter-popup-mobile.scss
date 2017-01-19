@@ -1,0 +1,113 @@
+$_cta-background: #5A5B68;
+$_popup-background: #5A5B68;
+$_font-color: #ffffff;
+$_button-color: #00C16D;
+$_input-text-color: #222222;
+
+.newsletter-mobile--cta {
+    background-color: $_cta-background;
+    height: 45px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 10;
+
+    &.hide {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    p {
+        @include font-size(14);
+        color: $_font-color;
+
+        span.newsletter-trigger{
+            color: $_font-color;
+            text-decoration: underline;
+        }
+    }
+
+    .close {
+        @include font-size(20);
+        padding: 6px 10px;
+        color: $_font-color;
+    }
+
+    .hide-p {
+        display: none;
+    }
+}
+
+#newsletter-mobile--container {
+    background-color: $_popup-background;
+    position: fixed;
+    left: 0;
+    bottom: -300px;
+    width: 100%;
+    padding: 20px;
+    will-change: bottom;
+    webkit-backface-visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+    z-index: 200;
+    
+    &.show-form {
+        bottom: 0;
+    }
+
+    .close {
+        @include font-size(20);
+        color: $_font-color;
+    }
+
+    .newsletter-form__header {
+        p {
+            @include font-size(14);
+            color: $_font-color;
+            line-height: 1.5;
+        }
+    }
+
+    .newsletter-form__title {
+        span{
+            color: $_font-color;
+            text-transform: capitalize;
+            font-size: 18px;
+        }
+    }
+
+    .newsletter-form__inputs {
+        position: relative;
+        margin-bottom: 15px;
+
+        input[type=email] {
+            color: $_input-text-color;
+            padding: 10px 15px;
+            width: 100%;
+            display: block;
+            margin-bottom: 10px;
+
+            &::-webkit-input-placeholder {
+                color: $_input-text-color;
+            }
+            &::-moz-placeholder {
+                color: $_input-text-color;
+            }
+            &:-ms-input-placeholder {
+                color: $_input-text-color;
+            }
+            &:-moz-placeholder {
+                color: $_input-text-color;
+            }
+        }
+
+        .button {
+            color: $_font-color;
+            background-color: $_button-color;
+            padding: 10px 15px;
+            width: 100%;
+        }
+    }
+}
+
+

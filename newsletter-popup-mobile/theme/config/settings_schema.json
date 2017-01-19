@@ -1,0 +1,66 @@
+{
+  "name": "Mobile Newsletter Popup",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_newsletter_popup_enabled",
+      "label": "Enable Mobile Newsletter Popup?",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "CTA Settings"
+    },
+    {
+      "type": "text",
+      "id": "mobile_newsletter_cta_title",
+      "label": "CTA Title"
+    },
+    {
+      "type": "text",
+      "id": "mobile_newsletter_cta_text",
+      "label": "CTA Text"
+    },
+    {
+      "type": "header",
+      "content": "Popup Settings"
+    },
+    {
+      "type": "text",
+      "id": "mobile_newsletter_popup_title",
+      "label": "Popup Title"
+    },
+    {
+      "type": "textarea",
+      "id": "mobile_newsletter_popup_text",
+      "label": "Popup Text"
+    },
+    {
+      "type": "text",
+      "id": "mobile_newsletter_popup_success_message",
+      "label": "Sign Up Success Message",
+      "info": "Enter the text you would like to display when a visitor successfully signs up with this form"
+    },
+    {
+      "type": "header",
+      "content": "Klaviyo Settings"
+    },
+    {
+      "type": "text",
+      "id": "mobile_newsletter_popup_klaviyo_list_id",
+      "label": "Klaviyo List ID",
+      "info": "Learn how to find the Klaviyo List ID [here](https:\/\/docs.klaviyo.com\/customer\/en\/portal\/articles\/2432726-find-your-list-id)"
+    },
+    {
+      "type": "text",
+      "id": "mobile_newsletter_popup_klaviyo_form_source",
+      "label": "Klaviyo Form Sign Up Source",
+      "info": "Please enter the sign up source for this form without the $. Learn more about the source property [here](https:\/\/docs.klaviyo.com\/customer\/en\/portal\/articles\/2426675-customize-the-sign-up-source-property-for-a-form)",
+      "default": "mobile_popup"
+    }
+  ]
+}
