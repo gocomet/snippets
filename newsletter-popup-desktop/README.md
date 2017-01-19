@@ -7,6 +7,7 @@ A desktop newsletter popup.
 - Klaviyo form snippet (included inside this snippets folder @ /klaviyo-form)
 - Use whatever form works for the project's ESP
 - `src/js/main.js` is a file we use in Themeleon to initialize scripts and pass theme settings into them 
+- Magnific Popup.  This is installed on Themeleon but may not be included in whatever theme you are using.
 
 ## Installation
 
