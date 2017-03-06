@@ -1,0 +1,94 @@
+{% comment %}
+
+	snippets/currencies.liquid
+
+{% endcomment %}
+
+{% if settings.currency_converter_enabled %}
+  {{ "/services/javascripts/currencies.js" | script_tag }}
+  {{ "js_jquery.currencies.min.js" | asset_url | script_tag }}
+  <script>
+    {% if settings.currency_format %}
+      Currency.format = '{{ settings.currency_format }}';
+    {% endif %}
+
+    var shopCurrency = '{{ shop.currency }}';
+
+    {% comment %}
+
+    Get shop currency from admin settings
+
+    {% endcomment %}
+    Currency.money_with_currency_format[shopCurrency] = {{ shop.money_with_currency_format | strip_html | json }};
+    Currency.money_format[shopCurrency] = {{ shop.money_format | strip_html | json }};
+      
+
+    {% comment %}
+
+    Default currency
+
+    {% endcomment %}
+    var defaultCurrency = '{{ settings.default_currency }}' || shopCurrency;
+      
+    {% comment %}
+
+    Cookie currency
+
+    {% endcomment %}
+    var cookieCurrency = Currency.cookie.read();
+
+    {% comment %}
+
+    Fix for customer account pages
+
+    {% endcomment %}
+    jQuery('span.money span.money').each(function() {
+      jQuery(this).parents('span.money').removeClass('money');
+    });
+
+    {% comment %}
+
+    Saving the current price
+
+    {% endcomment %}
+    jQuery('span.money').each(function() {
+      jQuery(this).attr('data-currency-{{ shop.currency }}', jQuery(this).html());
+    });
+
+    // If there's no cookie.
+    if (cookieCurrency == null) {
+      if (shopCurrency !== defaultCurrency) {
+        Currency.convertAll(shopCurrency, defaultCurrency);
+      } else {
+        Currency.currentCurrency = defaultCurrency;
+      }
+      {% comment %}
+
+      If the cookie value does not correspond to any value in the currency dropdown.
+
+      {% endcomment %}
+    } else if (jQuery('[name=currencies]').size() && jQuery('[name=currencies] option[value=' + cookieCurrency + ']').size() === 0) {
+      Currency.currentCurrency = shopCurrency;
+      Currency.cookie.write(shopCurrency);
+    } else if (cookieCurrency === shopCurrency) {
+      Currency.currentCurrency = shopCurrency;
+    } else {
+      Currency.convertAll(shopCurrency, cookieCurrency);
+    }
+
+    jQuery('[name=currencies]').val(Currency.currentCurrency).change(function() {
+      var newCurrency = jQuery(this).val();
+      Currency.convertAll(Currency.currentCurrency, newCurrency);
+      jQuery('.selected-currency').text(Currency.currentCurrency);
+    });
+
+    original_selectCallback = selectCallback;
+    selectCallback = function(variant, selector) {
+      original_selectCallback(variant, selector);
+      Currency.convertAll(shopCurrency, jQuery('[name=currencies]').val());
+      jQuery('.selected-currency').text(Currency.currentCurrency);
+    };
+
+    jQuery('.selected-currency').text(Currency.currentCurrency);
+  </script>
+{% endif %}

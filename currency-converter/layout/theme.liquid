@@ -1,0 +1,6 @@
+{% if settings.currency_converter_enabled %}
+  {{ "js_jquery.currencies.min.js" | asset_url | script_tag }}
+
+  {% include 'currencies' %}
+{% endif %}
+

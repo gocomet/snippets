@@ -1,0 +1,49 @@
+[
+  {
+    "name": "Currency Converter",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "To offer multiple currencies on your online store, you must first [edit your store's currency formatting](https://help.shopify.com/themes/customization/currencies/show-multiple-currencies#edit-your-money-formats)."
+      },
+      {
+        "type": "checkbox",
+        "id": "currency_converter_enabled",
+        "label": "Enable Currency Converter?",
+        "default": "false"
+      },
+      {
+        "type": "select",
+        "id": "currency_format",
+        "label": "Money Format",
+        "options": [
+          {
+            "value": "money_format",
+            "label": "Without Currency, ex: $10.00"
+          },
+          {
+            "value": "money_with_currency_format",
+            "label": "With Currency, ex: $10 CAD"
+          }
+        ],
+        "default": "money_with_currency_format"
+      },
+      {
+        "type": "text",
+        "id": "supported_currencies",
+        "label": "Currencies You Wish to Support *",
+        "default": "CAD USD"
+      },
+      {
+        "type": "text",
+        "id": "default_currency",
+        "label": "Default Currency *",
+        "default": "CAD"
+      },
+      {
+        "type": "paragraph",
+        "content": "* Separate currency codes with a space. Use the ISO 4217 3-letter currency code ( [list of currency codes](http:\/\/www.xe.com\/iso4217.php) ). Example: CAD USD. While prices can be displayed on the store front in different currencies, Shopify will process orders in the shop’s main currency."
+      }
+    ]
+  }
+]
