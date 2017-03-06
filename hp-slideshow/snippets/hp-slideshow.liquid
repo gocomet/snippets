@@ -1,19 +1,15 @@
-<!-- snippets/hp-slideshow.liquid -->
+{% comment %}
+
+  snippets/hp-slideshow.liquid
+
+  Contains four slides configured in theme settings
+
+{% endcomment %}
+
 {% if settings.hp_featuredslider_enabled %}
   <section class="row featured-slider">
-    {% comment %}
-    Homepage Slider
-    contains four items
-    configured in the theme settings
-    {% endcomment %}
-    {% assign hp_slides = '1,2,3,4' %}
-    {% assign hp_slides = hp_slides | split: ',' %}
-    {% comment %}
-    Loop through items
-    to create the slides
-    {% endcomment %}
     <div class="featured-slider__slides">
-      {% for s in hp_slides %}
+      {% for s in (1..4) %}
         {% assign slide_key = 'hp_featuredslider_slide' | append: s %}
         {% assign slide_enabled = slide_key | append: '_enabled' %}
         {% assign slide_img = slide_key | append: '_img.jpg' %}
