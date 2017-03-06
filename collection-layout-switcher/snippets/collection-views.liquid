@@ -1,0 +1,47 @@
+{% comment %}
+
+  snippets/collection-views.liquid
+
+  Used to toggle between collection.liquid and collection.list.liquid with the ?view= parameter.
+  
+{% endcomment %}
+
+<div class="collection-view">
+  <a 
+    title="List view" 
+    class="change-view{% if template contains 'list' %} collection-view--active{% endif %}" 
+    data-view="list">
+      List view
+  </a>
+  <a 
+    title="Grid view" 
+    class="change-view{% unless template contains 'list' %} collection-view--active{% endunless %}" 
+    data-view="grid">
+      Grid view
+  </a>
+</div>
+
+<script>
+  function replaceUrlParam(url, paramName, paramValue) {
+    var pattern = new RegExp('('+paramName+'=).*?(&|$)'),
+        newUrl = url.replace(pattern,'$1' + paramValue + '$2');
+    if ( newUrl == url ) {
+      newUrl = newUrl + (newUrl.indexOf('?')>0 ? '&' : '?') + paramName + '=' + paramValue;
+    }
+    return newUrl;
+  }
+
+  $(function() {
+    $('.change-view:not(.collection-view--active)').on('click', function() {
+      var view = $(this).data('view'),
+          url = document.URL,
+          hasParams = url.indexOf('?') > -1;
+
+      if (hasParams) {
+        window.location = replaceUrlParam(url, 'view', view);
+      } else {
+        window.location = url + '?view=' + view;
+      }
+    });
+  });
+</script>
